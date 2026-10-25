@@ -1,5 +1,11 @@
 # 构建与环境
 
+## 当前本机开发入口
+
+当前仅维护联网版。在仓库根目录运行 `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\build_online.ps1`，然后双击 `启动软件.cmd`。
+脚本自动查找 Visual Studio 2022 自带的 CMake，默认使用同级开发包 `../tnpsource_developmentKit/developenv`；其它机器通过 `TNP_DEPS_ROOT` 或 `-DependencyRoot` 指定开发包目录。
+联网开发的完整流程及服务器配置见 [online-development.md](online-development.md)。下述手动构建和发布包说明适用于自行配置环境的场景。
+
 ## CMake 配置（Windows x64）
 
 ```powershell
@@ -64,7 +70,7 @@ cmake -S .\src -B .\build -A x64 `
 
 ## 运行时环境变量
 
-**推荐启动方式**：双击 `out/bin/tnp2_launcher.exe`（或为其创建快捷方式）。启动器读取同目录 `tnp2.env`，在启动 `tnp2_app.exe` 前注入 PATH、GDAL、QGIS 等环境变量。
+**本机开发**：双击仓库根目录的 `启动软件.cmd`。**完整发布包**：双击 `out/bin/tnp2_launcher.exe`（或为其创建快捷方式）。发布包启动器读取同目录 `tnp2.env`，在启动 `tnp2_app.exe` 前注入 PATH、GDAL、QGIS 等环境变量。
 
 `WorkSpace/start/*.bat|vbs` 脚本已废弃，仅作参考；请改用启动器 + env 文件。
 
@@ -111,7 +117,7 @@ packageRoot/
 
 ## 工具约定
 
-- PowerShell `Get-Content` 读取文本时，未指定编码则**必须**使用 UTF-8：  
+- PowerShell `Get-Content` 读取文本时，未指定编码则**必须**使用 UTF-8：
   `Get-Content -Path docs\CodingStandards.md -Encoding UTF8`
 
 ## 开发包路径（参考）

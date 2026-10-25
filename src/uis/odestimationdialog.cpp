@@ -1,4 +1,3 @@
-#include "offlineapi.h"
 /*****************************************************************//**
  * \file   odestimationdialog.cpp
  * \brief  OD反推工具弹窗实现
@@ -455,7 +454,7 @@ void OdEstimationDialog::openResultTable(const QString& tableSuffix, const QStri
     }
 
     CaseWfsMap::waitForCapabilitiesReady();
-    QgsVectorLayer layer(uri, title, OfflineApi::enabled()?QStringLiteral("postgres"):QStringLiteral("WFS"));
+    QgsVectorLayer layer(uri, title, QStringLiteral("WFS"));
     if (!layer.isValid()) {
         const QString err = layer.error().message().trimmed();
         TnUi::showWarning(QString::fromUtf8(u8"结果表"),

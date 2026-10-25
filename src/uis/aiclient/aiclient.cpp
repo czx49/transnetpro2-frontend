@@ -6,7 +6,6 @@
  * \date   May 2026
  *********************************************************************/
 #include "aiclient.h"
-#include "offlineapi.h"
 
 #include "aichatsession.h"
 #include "logprinter_ex.h"
@@ -76,7 +75,6 @@ int AIClient::appliedContextLimit() const
 
 void AIClient::fetchContextLimit()
 {
-    if(OfflineApi::enabled())return;
     if (!m_config.isUsable()) {
         m_config.contextLimit = AIClientConfig::DefaultContextLimit;
         logAppliedContextLimit(QString::fromUtf8(u8"AI 服务未配置，使用默认上下文上限"));

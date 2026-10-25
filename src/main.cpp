@@ -1,5 +1,3 @@
-#include "offlineapi.h"
-#include "offline/uismoke.h"
 /*****************************************************************//**
  * \file   main.cpp
  * \brief  Phase2程序入口
@@ -75,10 +73,6 @@ int main(int argc, char* argv[])
 #endif
 
     QgsApplication a(argc, argv, true);
-#ifdef TNP_OFFLINE_BUILD
-    if(qEnvironmentVariable("TNP_OFFLINE_CONFIG").isEmpty())qputenv("TNP_OFFLINE_CONFIG",QDir(QCoreApplication::applicationDirPath()).absoluteFilePath("../config/database.json").toUtf8());
-    if(qEnvironmentVariable("TNP_OFFLINE_SCHEMA").isEmpty())qputenv("TNP_OFFLINE_SCHEMA",QDir(QCoreApplication::applicationDirPath()).absoluteFilePath("../config/schema.sql").toUtf8());
-#endif
     setupEnvironment();
     QgsApplication::initQgis();
     // 属性表内联编辑依赖编辑器工厂；未 initEditors 时 createEditor 会空指针崩溃
@@ -106,15 +100,11 @@ int main(int argc, char* argv[])
     {
         AppWindow appWindow;
         appWindow.setWindowIcon(appIcon);
-        if(OfflineApi::enabled())appWindow.setWindowTitle(QString::fromUtf8(u8"城市道路交通网络预测与分析平台 · 二期离线版"));
-        const bool smoke=a.arguments().contains("--offline-ui-test");
-        if(smoke){appWindow.resize(1600,1000);appWindow.show();OfflineUiSmoke::start(&appWindow);}else appWindow.showMaximized();
+        appWindow.showMaximized();
         result=a.exec();
     }
     CaseWfsMap::prepareForShutdown();
     QgsProject::instance()->removeAllMapLayers();
-    if(a.arguments().contains("--offline-ui-test")&&!OfflineUiSmoke::finish())result=1;
-    OfflineApi::shutdown();
     // 清理 QGIS 资源
     QgsApplication::exitQgis();
     return result;
@@ -125,7 +115,7 @@ void setupEnvironment()
     const QString prefix=qEnvironmentVariable("TNP_QGIS_PREFIX");
     if(!prefix.isEmpty()) {
         QgsApplication::setPrefixPath(prefix,true);QgsApplication::setPluginPath(prefix+"/plugins");QgsApplication::setPkgDataPath(prefix);
-        QString auth=QDir(QFileInfo(qEnvironmentVariable("TNP_OFFLINE_CONFIG")).absolutePath()).absoluteFilePath("../data/qgis_auth");
+        const QString auth = QDir(QCoreApplication::applicationDirPath()).absoluteFilePath("data/qgis_auth");
         QDir().mkpath(auth);QgsApplication::setAuthDatabaseDirPath(auth);return;
     }
     QString appDir = QApplication::applicationDirPath();

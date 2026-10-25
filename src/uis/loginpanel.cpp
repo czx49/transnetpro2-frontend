@@ -1,4 +1,3 @@
-#include "offlineapi.h"
 /*****************************************************************//**
  * \file   loginpanel.cpp
  * \brief  登录窗体实现
@@ -36,10 +35,6 @@ LoginPanel::LoginPanel(QWidget* parent)
     , mStatusLabel(nullptr)
 {
     initUi();
-    if(OfflineApi::enabled()) {
-        mUserNameEdit->setText(u8"本地用户");mPasswordEdit->clear();mPasswordEdit->setEchoMode(QLineEdit::Normal);
-        mPasswordEdit->setPlaceholderText(u8"离线模式，无需密码");mPasswordEdit->setReadOnly(true);
-    }
 }
 
 void LoginPanel::paintEvent(QPaintEvent* event)
@@ -65,7 +60,6 @@ void LoginPanel::paintEvent(QPaintEvent* event)
 
 void LoginPanel::onLoginButtonClicked()
 {
-    if(OfflineApi::enabled()){login();return;}
     if (mUserNameEdit->text().trimmed().isEmpty()) {
         TnUi::showWarning(u8"警告", u8"请输入用户名。");
         mUserNameEdit->setFocus();

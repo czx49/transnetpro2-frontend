@@ -7,7 +7,7 @@
 | 文档 | 内容 |
 |------|------|
 | [`build-and-env.md`](build-and-env.md) | CMake 配置/构建、可选编译项、运行时环境变量、Shell 工具约定 |
-| [`offline-use.txt`](offline-use.txt) | 二期离线版启动、数据库、本地导入、测试与功能边界 |
+| [`online-development.md`](online-development.md) | 联网版启动、后端配置、修改代码、编译与 GitHub 上传 |
 | [`package-layout.md`](package-layout.md) | 发布包 Layout A 内容清单（补齐/剔除/可选瘦身） |
 | [`CodingStandards.md`](CodingStandards.md) | C/C++ 编码规范（完整版） |
 | [`architecture.md`](architecture.md) | 技术栈、目录结构、入口初始化、主窗口与数据模型基类 |

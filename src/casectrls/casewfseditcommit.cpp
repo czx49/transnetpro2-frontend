@@ -1,5 +1,4 @@
 #include "casewfseditcommit.h"
-#include "offlineapi.h"
 
 // #include "casebuslinetypedialog.h" // 线路类型弹窗暂禁用
 // #include "casewaylayerhelper.h"    // 与上同步暂不用
@@ -353,16 +352,11 @@ namespace CaseWfsEditCommit {
 bool isPanelWfsLayer(QgsVectorLayer* layer)
 {
     return layer && layer->customProperty(kPanelWfsProp).toBool()
-        && (OfflineApi::enabled() || layer->providerType().compare(QStringLiteral("WFS"), Qt::CaseInsensitive) == 0);
+        && layer->providerType().compare(QStringLiteral("WFS"), Qt::CaseInsensitive) == 0;
 }
 
 bool commitLayerEdits(QgsVectorLayer* layer, const QString& authToken, QString* errorOut)
 {
-    if(OfflineApi::enabled() && layer && layer->providerType()==QStringLiteral("postgres")) {
-        if(!layer->isEditable() || !layer->isModified())return true;
-        if(layer->commitChanges())return true;
-        if(errorOut)*errorOut=layer->commitErrors().join(QStringLiteral("\n"));return false;
-    }
     if (!layer || !layer->isEditable() || !layer->isModified()) {
         return true;
     }

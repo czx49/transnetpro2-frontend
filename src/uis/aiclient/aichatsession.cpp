@@ -6,7 +6,6 @@
  * \date   May 2026
  *********************************************************************/
 #include "aichatsession.h"
-#include "offlineapi.h"
 
 #include "aiknowledgebase.h"
 
@@ -96,9 +95,6 @@ void AIChatSession::setContextLimit(int contextLimit)
 
 void AIChatSession::sendMessage(const QString& content)
 {
-    if(OfflineApi::enabled()){
-        finishWithError(QString::fromUtf8(u8"离线版尚未配置本地 AI 模型，当前无法生成回复。"));return;
-    }
     const QString userContent = content.trimmed();
     if (userContent.isEmpty() || m_running) {
         return;

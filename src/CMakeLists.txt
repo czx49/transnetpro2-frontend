@@ -92,8 +92,6 @@ set(ENV{PATH} "${QT_BIN_DIR};$ENV{PATH}")
 # 项目源文件
 set(PROJECT_SOURCES
     main.cpp
-    offline/offlineimportdialog.cpp
-    offline/uismoke.cpp
     icons.qrc
 )
 
@@ -165,14 +163,6 @@ add_subdirectory(casectrls)
 
 # 启动器（tnp2_launcher + tnp2.env）
 add_subdirectory(launcher)
-add_subdirectory(offline)
-option(TNP_OFFLINE_BUILD "Build Phase2 for local PostgreSQL" OFF)
-if(TNP_OFFLINE_BUILD)
-    target_compile_definitions(${APP_NAME} PRIVATE TNP_OFFLINE_BUILD)
-    foreach(config DEBUG RELEASE RELWITHDEBINFO MINSIZEREL)
-        set_target_properties(${APP_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_${config} "${CMAKE_SOURCE_DIR}/offline/bin")
-    endforeach()
-endif()
 
 # 源码分目录显示（MSVC）
 if(MSVC)

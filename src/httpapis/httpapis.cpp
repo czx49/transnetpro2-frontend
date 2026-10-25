@@ -3,7 +3,7 @@
 #include "httpapidefines.h"
 #include "grpcaistreamclient.h"
 #include "grpcstreamclient.h"
-#include "apirequest.h"
+#include "qrequest2.h"
 
 #include <QMetaType>
 #include <QUrl>
@@ -25,7 +25,7 @@ void sendGet(const QUrl& url,
     };
 
     QVariantMap params;
-    ApiRequest::instance().get(url.toString(),
+    QRequest2::instance().get(url.toString(),
                               resultful_callback,
                               params,
                               HttpApis::defaultHeaders(),
@@ -45,7 +45,7 @@ void sendPost(const QString& url,
         HttpApis::handleResponse<T>(suc, msg, data, callback);
     };
 
-    ApiRequest::instance().post(url,
+    QRequest2::instance().post(url,
                                resultful_callback,
                                params,
                                HttpApis::defaultHeaders(),
@@ -78,7 +78,7 @@ void sendGetRaw(const QUrl& url, const HttpApis::RawResponseCallback& callback, 
     };
 
     QVariantMap empty;
-    ApiRequest::instance().get(url.toString(), wrapped, empty, HttpApis::defaultHeaders(), HttpApis::defaultRawHeaders(token));
+    QRequest2::instance().get(url.toString(), wrapped, empty, HttpApis::defaultHeaders(), HttpApis::defaultRawHeaders(token));
 }
 } // namespace
 
@@ -115,7 +115,7 @@ void HttpApis::login(const QString& username, const QString& password, const Res
         handleResponse<LoginResponseJson>(suc, msg, data, callback);
     };
 
-    ApiRequest::instance().post(fullURL(API_LOGIN), resultful_callback, params, defaultHeaders());
+    QRequest2::instance().post(fullURL(API_LOGIN), resultful_callback, params, defaultHeaders());
 }
 
 void HttpApis::getBaseConfig(const ResponseCallBack<BaseConfigJson>& callback)
@@ -447,7 +447,7 @@ void HttpApis::uploadCSV(const QString& token,
     };
 
     QVariantMap params;
-    ApiRequest::instance().postFile(
+    QRequest2::instance().postFile(
         filePath,
         url.toString(),
         resultful_callback,
@@ -480,7 +480,7 @@ void HttpApis::uploadShpZip(const QString& token,
     };
 
     QVariantMap params;
-    ApiRequest::instance().postFile(
+    QRequest2::instance().postFile(
         filePath,
         url.toString(),
         resultful_callback,
@@ -606,7 +606,7 @@ void HttpApis::deleteCase(const QString& token, int id, const ResponseCallBack<R
 
     QVariantMap params;
     const QString url = fullURL(API_CASE_DEL + QString("/%1").arg(id));
-    ApiRequest::instance().remove(url, resultful_callback, params, defaultHeaders(), defaultRawHeaders(token));
+    QRequest2::instance().remove(url, resultful_callback, params, defaultHeaders(), defaultRawHeaders(token));
 }
 
 void HttpApis::caseEditResult(const QString& token,
@@ -625,7 +625,7 @@ void HttpApis::caseEditResult(const QString& token,
         handleResponse<CaseEditResultJson>(suc, msg, data, callback);
     };
 
-    ApiRequest::instance().post(fullURL(API_CASE_EDIT_RESULT), resultful_callback, params, defaultHeaders(), defaultRawHeaders(token));
+    QRequest2::instance().post(fullURL(API_CASE_EDIT_RESULT), resultful_callback, params, defaultHeaders(), defaultRawHeaders(token));
 }
 
 void HttpApis::caseFieldBatch(const QString& token,
@@ -1076,7 +1076,7 @@ void HttpApis::wfsFeatureInsert(const QVariantMap& body, const RawResponseCallba
     auto wrapped = [callback](bool suc, const QString& msg, const QByteArray& data) {
         callback(suc, data, msg);
     };
-    ApiRequest::instance().post(fullURL(API_WFS_FEATURE), wrapped, body, defaultHeaders(), QVariantMap());
+    QRequest2::instance().post(fullURL(API_WFS_FEATURE), wrapped, body, defaultHeaders(), QVariantMap());
 }
 
 void HttpApis::wfsFeatureUpdate(const QVariantMap& body, const RawResponseCallback& callback)
@@ -1084,7 +1084,7 @@ void HttpApis::wfsFeatureUpdate(const QVariantMap& body, const RawResponseCallba
     auto wrapped = [callback](bool suc, const QString& msg, const QByteArray& data) {
         callback(suc, data, msg);
     };
-    ApiRequest::instance().put(fullURL(API_WFS_FEATURE), wrapped, body, defaultHeaders(), QVariantMap());
+    QRequest2::instance().put(fullURL(API_WFS_FEATURE), wrapped, body, defaultHeaders(), QVariantMap());
 }
 
 void HttpApis::wfsFeatureDelete(const QVariantMap& body, const RawResponseCallback& callback)
@@ -1092,7 +1092,7 @@ void HttpApis::wfsFeatureDelete(const QVariantMap& body, const RawResponseCallba
     auto wrapped = [callback](bool suc, const QString& msg, const QByteArray& data) {
         callback(suc, data, msg);
     };
-    ApiRequest::instance().remove(fullURL(API_WFS_FEATURE), wrapped, body, defaultHeaders(), QVariantMap());
+    QRequest2::instance().remove(fullURL(API_WFS_FEATURE), wrapped, body, defaultHeaders(), QVariantMap());
 }
 
 void HttpApis::wfsBatchTransactionJson(const QVariantMap& body, const QString& authToken, const RawResponseCallback& callback)
@@ -1100,7 +1100,7 @@ void HttpApis::wfsBatchTransactionJson(const QVariantMap& body, const QString& a
     auto wrapped = [callback](bool suc, const QString& msg, const QByteArray& data) {
         callback(suc, data, msg);
     };
-    ApiRequest::instance().post(fullURL(API_WFS), wrapped, body, defaultHeaders(), defaultRawHeaders(authToken));
+    QRequest2::instance().post(fullURL(API_WFS), wrapped, body, defaultHeaders(), defaultRawHeaders(authToken));
 }
 
 QMap<QNetworkRequest::KnownHeaders, QVariant> HttpApis::defaultHeaders()

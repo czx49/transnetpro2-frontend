@@ -1,6 +1,4 @@
 #include "appsession.h"
-#include "offlineapi.h"
-#include "offlineimportdialog.h"
 /*****************************************************************//**
  * \file   casepanel.cpp
  * \brief  方案工具栏实现
@@ -1366,21 +1364,6 @@ QString packShpSidecarFilesToZip(const QString& shpPath, QString* errorMessage)
 
 void CasePanel::requestDrcsvLayerImport(int caseId, const QString& table, const QString& layerDisplayName)
 {
-    if(OfflineApi::enabled()) {
-        const QString selected=selectOfflineImportSource(this,layerDisplayName,table);if(selected.isEmpty())return;
-        HttpApis::uploadCSV(AppSession::instance().token(),QStringLiteral("local"),m_projectId,caseId,table,selected,
-            [this,caseId,table](bool ok,const QSharedPointer<ResponseJson>&,const QString& error){
-                if(!ok){TnUi::showWarning(u8"导入失败",error);return;}
-                TnUi::showInformation(u8"导入完成",u8"本地图层数据已更新。");
-                for(auto* map:findChildren<TNMapWidget*>()) {
-                    const QString uri=CaseWfsMap::buildWfsDataSourceUri(table);
-                    if(auto* layer=qobject_cast<QgsVectorLayer*>(map->getLayer(uri))){layer->reload();layer->triggerRepaint();}
-                }
-                if(caseId==0)UIG().reloadCurrentProjectDetail();else UIG().reloadCurrentProjectCases();
-            });
-        return;
-    }
-
     Q_UNUSED(layerDisplayName)
 
     const QSharedPointer<LoginResponseJson> loginInfo = UIG().loginInfo();

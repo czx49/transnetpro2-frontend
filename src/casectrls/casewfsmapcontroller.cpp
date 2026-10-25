@@ -6,7 +6,6 @@
  * \date   May 2026
  *********************************************************************/
 #include "casewfsmapcontroller.h"
-#include "offlineapi.h"
 
 #include "../casectrls/casewaylayerhelper.h"
 #include "../httpapis/httpapidefines.h"
@@ -219,7 +218,7 @@ QString formatBatchProgressMessage(int current, int total)
 bool isWfsAttributeOnlyLayer(QgsVectorLayer* layer)
 {
     return layer && layer->isValid()
-           && (OfflineApi::enabled() || layer->providerType().compare(QStringLiteral("WFS"), Qt::CaseInsensitive) == 0)
+           && layer->providerType().compare(QStringLiteral("WFS"), Qt::CaseInsensitive) == 0
            && layer->geometryType() == Qgis::GeometryType::Null
            && layer->fields().count() > 0;
 }
@@ -897,13 +896,13 @@ bool applyWfsLayerInternal(TNMapWidget* map, const QString& displayName, const Q
     // Caps readiness is guaranteed by pumpWfsLayerLoadQueue (defer until Idle); no processEvents wait here.
     const QString layerTitle = displayName.trimmed().isEmpty() ? trimmedType : displayName.trimmed();
     QString createUri = uriStr;
-    if (shouldFilterWayLayer && !OfflineApi::enabled()) {
+    if (shouldFilterWayLayer) {
         QgsDataSourceUri filteredUri(uriStr);
         filteredUri.setParam(QStringLiteral("filter"), CaseWayLayer::defaultTypeSubsetExpression());
         createUri = filteredUri.uri(false);
     }
     auto tryCreateWfsLayer = [&]() -> QgsVectorLayer* {
-        auto* layer = new QgsVectorLayer(createUri, layerTitle, OfflineApi::enabled()?QStringLiteral("postgres"):QStringLiteral("WFS"));
+        auto* layer = new QgsVectorLayer(createUri, layerTitle, QStringLiteral("WFS"));
         if (!layer->isValid()) {
             qWarning() << u8"WFS 图层创建失败：" << layer->lastError() << trimmedType;
             delete layer;
@@ -963,7 +962,6 @@ namespace CaseWfsMap {
 
 void setupWfsProviderCachingPolicy()
 {
-    if(OfflineApi::enabled()){g_capsWarmSucceeded=true;return;}
     QgsSettings settings;
     settings.setValue(QStringLiteral("qgis/wfsMemoryCacheDelay"), kWfsMemoryCacheDelaySeconds);
     scheduleCapabilitiesWarm(false);
@@ -971,13 +969,11 @@ void setupWfsProviderCachingPolicy()
 
 void invalidateWfsCapabilitiesCache()
 {
-    if(OfflineApi::enabled())return;
     removeCapabilitiesUrlFromNamCache();
 }
 
 void refreshWfsCapabilitiesCache()
 {
-    if(OfflineApi::enabled())return;
 #ifndef TNP_ENABLE_AUTO_WFS_CAPS_REFRESH
     return;
 #endif
@@ -986,13 +982,11 @@ void refreshWfsCapabilitiesCache()
 
 void forceRefreshWfsCapabilitiesCache()
 {
-    if(OfflineApi::enabled()){g_capsWarmSucceeded=true;return;}
     scheduleCapabilitiesWarm(true);
 }
 
 void setCapabilitiesWarmFinishedCallback(std::function<void(bool succeeded)> callback)
 {
-    if(OfflineApi::enabled()){QTimer::singleShot(0,qApp,[callback](){if(callback)callback(true);});return;}
     g_capsFinishedCallback = std::move(callback);
 }
 
@@ -1003,7 +997,6 @@ void clearCapabilitiesWarmFinishedCallback()
 
 void ensureCapabilitiesWarm()
 {
-    if(OfflineApi::enabled())return;
     if (g_capsWarmSucceeded) {
         return;
     }
@@ -1015,13 +1008,11 @@ void ensureCapabilitiesWarm()
 
 bool isCapabilitiesWarmSucceeded()
 {
-    if(OfflineApi::enabled())return true;
     return g_capsWarmSucceeded;
 }
 
 void scheduleSchemaWarm(const QStringList& typeNames, bool prioritize)
 {
-    if(OfflineApi::enabled())return;
     bool added = false;
     for (const QString& raw : typeNames) {
         const QString trimmed = raw.trimmed();
@@ -1052,7 +1043,6 @@ void scheduleSchemaWarm(const QStringList& typeNames, bool prioritize)
 
 void waitForCapabilitiesReady()
 {
-    if(OfflineApi::enabled())return;
     if (!isCapabilitiesWarmBusy()) {
         return;
     }
@@ -1138,14 +1128,6 @@ void clearBatchLoadFailureReconcileCallback()
 
 QString buildWfsDataSourceUri(const QString& typeName)
 {
-    if(OfflineApi::enabled()) {
-        QString error;const auto cfg=OfflineApi::layerConnection(typeName,&error);
-        if(cfg.isEmpty()){qWarning()<<u8"本地图层连接失败"<<error;return {};}
-        QgsDataSourceUri local;local.setConnection(cfg["host"].toString(),QString::number(cfg["port"].toInt()),cfg["database"].toString(),cfg["user"].toString(),cfg["password"].toString(),QgsDataSourceUri::SslDisable);
-        local.setDataSource(cfg["schema"].toString(),cfg["table"].toString(),cfg["geometry"].toString(),QString(),QStringLiteral("id"));
-        local.setWkbType(QgsWkbTypes::parseType(cfg["wkb_type"].toString()));
-        local.setSrid(QStringLiteral("4326"));return local.uri(false);
-    }
     const QString trimmed = typeName.trimmed();
     if (trimmed.isEmpty()) {
         return {};

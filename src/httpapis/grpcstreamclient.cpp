@@ -1,4 +1,3 @@
-#include "offlineapi.h"
 /**
  * @file grpcstreamclient.cpp
  * @author zhangmg
@@ -96,10 +95,6 @@ void GrpcStreamClient::start(int project_id,
     mFailEmitted = false;
     mCompletedEmitted = false;
     mLastResult = QJsonObject();
-    if(OfflineApi::enabled()) {
-        QTimer::singleShot(0,this,[this](){finishWithError(QString::fromUtf8(u8"此分析或 AI 功能需要配套离线引擎，当前未安装。"));});
-        return;
-    }
 
     QUrl url(fullURL(API_GRPC_STREAM));
     QUrlQuery query;

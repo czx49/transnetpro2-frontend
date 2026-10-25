@@ -33,7 +33,6 @@ target_link_libraries(httpapis INTERFACE
     jsonreader
     qrequest
     singleton
-    tnp2_offline
 )
 
 if(MSVC)
