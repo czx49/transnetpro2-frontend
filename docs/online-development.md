@@ -30,12 +30,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\launch_online.ps1
 
 ```ini
 [Config]
-HostName=http://gisapi.wjnet.cc
+HostName=http://gisapi.jiheshop.com
 ```
 
-此地址沿用原开发包配置；实际服务地址以服务方提供的信息为准。主机地址不追加 `/api`，客户端会拼接 API 路径。网络及后端服务正常、账号有效时才能完成登录和业务联调。
+此地址来自二期 API 文档，已验证公开接口可直接访问。主机地址不追加 `/api`，客户端会拼接 API 路径。实际登录与业务联调还需有效的软件账号。
 
-2026-10-25 本机检查：该地址的 `/api/config/getversion` 返回 HTTP 404，旧文档地址 `http://gisapi.jiheshop.com` 的同一接口返回 HTTP 502。联网客户端已编译并通过启动检查，后端登录与业务流程待使用有效服务地址验证。
+2026-10-25 本机复核：直接访问 `http://gisapi.jiheshop.com` 的 `/api/config/getversion`、`/api/config/base` 和 `/api/config/api` 均返回 HTTP 200。版本接口的业务码为 200、版本为 2.0.0；基础信息接口业务码为 200，站点名称与本项目一致。本机代理访问该地址时曾返回 502，因此代理结果不能用于判定服务器停机。
+
+原开发包中的 `http://gisapi.wjnet.cc` 对版本与基础信息接口返回 HTTP 404，当前二期默认配置已改用上面的已验证地址。
 
 如需更换服务器：
 
