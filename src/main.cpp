@@ -8,6 +8,8 @@
  * \History 初始版本
  *********************************************************************/
 #include "appwindow.h"
+#include "httpapis/backendproxyfactory.h"
+#include "httpapis/httpserverconfig.h"
 #include "casectrls/casewfsmapcontroller.h"
 #include "qgsapplication.h"
 #include "qgseditorwidgetregistry.h"
@@ -15,6 +17,7 @@
 #include "qgsmessagelog.h"
 #include "qgslogger.h"
 #include "qgsproject.h"
+#include "qgsnetworkaccessmanager.h"
 
 #include <QApplication>
 #include <QFontDatabase>
@@ -75,6 +78,13 @@ int main(int argc, char* argv[])
     QgsApplication a(argc, argv, true);
     setupEnvironment();
     QgsApplication::initQgis();
+    const QUrl backendUrl(HttpServerConfig::instance().hostName());
+    QNetworkProxyFactory::setApplicationProxyFactory(new BackendProxyFactory(backendUrl));
+    // QGIS has a separate proxy chain. Return no decision for unrelated destinations.
+    QgsNetworkAccessManager::instance()->insertProxyFactory(
+        new BackendProxyFactory(backendUrl, [](const QNetworkProxyQuery&) {
+            return QList<QNetworkProxy>();
+        }));
     // 属性表内联编辑依赖编辑器工厂；未 initEditors 时 createEditor 会空指针崩溃
     QgsGui::editorWidgetRegistry()->initEditors(nullptr);
     CaseWfsMap::setupWfsProviderCachingPolicy();

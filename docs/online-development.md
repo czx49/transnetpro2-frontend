@@ -37,6 +37,10 @@ HostName=http://gisapi.jiheshop.com
 
 2026-10-25 本机复核：直接访问 `http://gisapi.jiheshop.com` 的 `/api/config/getversion`、`/api/config/base` 和 `/api/config/api` 均返回 HTTP 200。版本接口的业务码为 200、版本为 2.0.0；基础信息接口业务码为 200，站点名称与本项目一致。本机代理访问该地址时曾返回 502，因此代理结果不能用于判定服务器停机。
 
+客户端已对 `httpserver.ini` 中配置的后端主机设置直连规则，覆盖版本、登录、业务 HTTP、SSE 及同主机的 QGIS 请求；其它主机仍遵循代理配置，系统代理设置不会被修改。更换后端地址后需重启软件。
+
+如果仍看到 `getversion` 或 `user/login` 的 Bad Gateway 弹窗，先退出旧程序，再用 `启动软件.cmd` 启动重新编译后的版本。网络检查通过后，登录仍需软件业务账号。
+
 原开发包中的 `http://gisapi.wjnet.cc` 对版本与基础信息接口返回 HTTP 404，当前二期默认配置已改用上面的已验证地址。
 
 如需更换服务器：
@@ -97,3 +101,8 @@ git push
 - 登录失败时核对软件账号、后端地址和网络；启动日志位于 `out/bin/logs/`。启动成功不代表业务接口已验证。
 - 当前电脑的 Git 仓库配置使用既有本地代理 `127.0.0.1:7890`。推送出现连接错误时，确认代理已开启；其它电脑按自身网络设置代理。
 - GitHub 登录过期时使用 Git Credential Manager 浏览器/设备授权，无需把账号密码写进仓库。
+
+## 网络回归检查
+
+`tests/networkproxy` 是独立的 QtTest 项目，可使用 Qt5 的 CMake 前缀配置并运行。默认测试用本机 HTTP 服务及模拟故障代理，验证后端直连和其它主机继续使用代理。
+额外设置 `TNP_LIVE_BACKEND=http://gisapi.jiheshop.com` 后，会检查公开版本、基础信息和空凭据登录的参数校验；此检查不会使用真实账号，不能替代真实登录验收。

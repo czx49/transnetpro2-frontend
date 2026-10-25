@@ -1,6 +1,7 @@
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/sourcegroup.cmake)
 
 set(HTTPAPIS_HEADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/backendproxyfactory.h
     ${CMAKE_CURRENT_SOURCE_DIR}/appsession.h
     ${CMAKE_CURRENT_SOURCE_DIR}/grpcaistreamclient.h
     ${CMAKE_CURRENT_SOURCE_DIR}/grpcstreamclient.h
