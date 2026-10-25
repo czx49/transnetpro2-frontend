@@ -1,0 +1,28 @@
+{
+  "db_conn_str": {
+    "dbname": "urban",
+    "host": "211.149.178.166",
+    "user": "uproject",
+    "password": "<CONFIGURE_LOCALLY>",
+    "port": 5432,
+    "role": "user_project",
+    "scenario_prefix": "project76_user1"
+  },
+  "algorithm_params": {
+    "p_pop_rate": 1.8,
+    "p_cars_rate": 0.8,
+    "p_eind_rate": 0.1,
+    "p_eret_rate": 0.1,
+    "p_eoth_rate": 0.1,
+    "a_pop_rate": 0.4,
+    "a_cars_rate": 0.0,
+    "a_eind_rate": 2.5,
+    "a_eret_rate": 4.0,
+    "a_eoth_rate": 2.0,
+    "param_lambda": 0.1,
+    "max_iter": 20,
+    "tol": 1e-6,
+    "diag_eps": 0.1
+  },
+  "od_top_k":500
+}

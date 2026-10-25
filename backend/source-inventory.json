@@ -1,0 +1,535 @@
+{
+  "origin": "../tnpsource_developmentKit/transnetproCode/out/bin/algorithm",
+  "source_files": [
+    "backend/algorithms/ctap/1-回调和报告字段说明README_progress_callback_and_result.md",
+    "backend/algorithms/ctap/test_ctap_new_ret_cb.py",
+    "backend/algorithms/greedy/1-test_tnadriver_run.py",
+    "backend/algorithms/greedy/1-test_tnadriver_run_from_conf.py",
+    "backend/algorithms/greedy/conf.json.example",
+    "backend/algorithms/odtna/capacity_business_config.json.example",
+    "backend/algorithms/odtna/capacity_bussiness_run.bat",
+    "backend/algorithms/odtna/export_results.py",
+    "backend/algorithms/odtna/inspect_csv.py",
+    "backend/algorithms/odtna/run_test.bat",
+    "backend/algorithms/odtna/run_with_log.bat",
+    "backend/algorithms/odtna/runtime_capacity_business_example.py",
+    "backend/algorithms/odtna/runtime_standard_example.py",
+    "backend/algorithms/odtna/runtime_with_progress_example.py",
+    "backend/algorithms/trip/build-dll.bat",
+    "backend/algorithms/trip/check_tables.sql",
+    "backend/algorithms/trip/clean_table.sql",
+    "backend/algorithms/trip/convert_to_taz_data.py",
+    "backend/algorithms/trip/dist_dll/wrapper.cpp",
+    "backend/algorithms/trip/DLL单接口-使用说明.md",
+    "backend/algorithms/trip/docs/2025-12-17_trip_distribution_hist表相关代码梳理.md",
+    "backend/algorithms/trip/docs/四阶段法-嵌入式Python修复指南.md",
+    "backend/algorithms/trip/generate_db_compatible.py",
+    "backend/algorithms/trip/generate_formatted_data.py",
+    "backend/algorithms/trip/generate_point_geometry.py",
+    "backend/algorithms/trip/generate_simple_point.py",
+    "backend/algorithms/trip/generate_taz_data.py",
+    "backend/algorithms/trip/install_deps.bat",
+    "backend/algorithms/trip/process_data.py",
+    "backend/algorithms/trip/process_data_fixed.py",
+    "backend/algorithms/trip/process_simple.py",
+    "backend/algorithms/trip/read_excel.py",
+    "backend/algorithms/trip/read_excel_v2.py",
+    "backend/algorithms/trip/restore_table.sql",
+    "backend/algorithms/trip/tools/cfg.json.example",
+    "backend/algorithms/trip/tools/generate_test_data.py",
+    "backend/algorithms/trip/tools/manage_hist_od.py",
+    "backend/algorithms/trip/tools/prepare_pyhome.bat",
+    "backend/algorithms/trip/tools/test_dll.py",
+    "backend/algorithms/trip/tools/test_py_modules.py",
+    "backend/algorithms/trip/tools/vendor_deps.bat",
+    "backend/algorithms/trip/trip_distribution/__init__.py",
+    "backend/algorithms/trip/trip_distribution/trip_distribution.py",
+    "backend/algorithms/trip/trip_generation/__init__.py",
+    "backend/algorithms/trip/trip_generation/data/config.json.example",
+    "backend/algorithms/trip/trip_generation/trip_generation.py",
+    "backend/algorithms/trip/四阶段算法说明.md",
+    "backend/contracts/legacy-apifox-openapi.json",
+    "backend/contracts/legacy-postman-collection.json"
+  ],
+  "credential_literals_replaced": 15,
+  "native_artifacts_in_local_kit_not_committed": [
+    {
+      "path": "ctap/cblas.dll",
+      "bytes": 417280
+    },
+    {
+      "path": "ctap/CTAPDriver.dll",
+      "bytes": 364032
+    },
+    {
+      "path": "ctap/CTAPDriver.lib",
+      "bytes": 2350
+    },
+    {
+      "path": "ctap/gdal110.dll",
+      "bytes": 13140480
+    },
+    {
+      "path": "ctap/geos.dll",
+      "bytes": 1243648
+    },
+    {
+      "path": "ctap/geos_c.dll",
+      "bytes": 271872
+    },
+    {
+      "path": "ctap/gsl.dll",
+      "bytes": 2911232
+    },
+    {
+      "path": "ctap/iconv.dll",
+      "bytes": 916480
+    },
+    {
+      "path": "ctap/libcrypto-3-x64.dll",
+      "bytes": 4694016
+    },
+    {
+      "path": "ctap/libcrypto.lib",
+      "bytes": 1251364
+    },
+    {
+      "path": "ctap/libcurl.dll",
+      "bytes": 648192
+    },
+    {
+      "path": "ctap/libcurl.lib",
+      "bytes": 21338
+    },
+    {
+      "path": "ctap/libexpat.dll",
+      "bytes": 124928
+    },
+    {
+      "path": "ctap/libiconv-2.dll",
+      "bytes": 1850401
+    },
+    {
+      "path": "ctap/libintl-9.dll",
+      "bytes": 475769
+    },
+    {
+      "path": "ctap/libintl.lib",
+      "bytes": 18436
+    },
+    {
+      "path": "ctap/libmysql.dll",
+      "bytes": 1553920
+    },
+    {
+      "path": "ctap/libpq-bak.lib",
+      "bytes": 37236
+    },
+    {
+      "path": "ctap/libpq-new.dll",
+      "bytes": 324608
+    },
+    {
+      "path": "ctap/libpq-new.lib",
+      "bytes": 37236
+    },
+    {
+      "path": "ctap/libpq.dll",
+      "bytes": 324608
+    },
+    {
+      "path": "ctap/libpq.lib",
+      "bytes": 37236
+    },
+    {
+      "path": "ctap/libpqxx.dll",
+      "bytes": 364544
+    },
+    {
+      "path": "ctap/libssl-3-x64.dll",
+      "bytes": 779776
+    },
+    {
+      "path": "ctap/libwinpthread-1.dll",
+      "bytes": 52736
+    },
+    {
+      "path": "ctap/libzstd.dll",
+      "bytes": 727552
+    },
+    {
+      "path": "ctap/mat_x64.dll",
+      "bytes": 1571328
+    },
+    {
+      "path": "ctap/mysqlpp.dll",
+      "bytes": 492544
+    },
+    {
+      "path": "ctap/openjp2.dll",
+      "bytes": 171520
+    },
+    {
+      "path": "ctap/pgl_x64.dll",
+      "bytes": 815616
+    },
+    {
+      "path": "ctap/proj.dll",
+      "bytes": 368640
+    },
+    {
+      "path": "ctap/randlib.dll",
+      "bytes": 77312
+    },
+    {
+      "path": "ctap/shapelib.dll",
+      "bytes": 252416
+    },
+    {
+      "path": "ctap/spatialite.dll",
+      "bytes": 7776768
+    },
+    {
+      "path": "ctap/tnm_x64.dll",
+      "bytes": 1614336
+    },
+    {
+      "path": "ctap/tnmder_x64.dll",
+      "bytes": 454656
+    },
+    {
+      "path": "ctap/vnapp_x64.dll",
+      "bytes": 887808
+    },
+    {
+      "path": "ctap/VRPN_x64.dll",
+      "bytes": 347648
+    },
+    {
+      "path": "ctap/vtnm_x64.dll",
+      "bytes": 1525760
+    },
+    {
+      "path": "ctap/xerces-c_2_8.dll",
+      "bytes": 3367424
+    },
+    {
+      "path": "ctap/zlib1.dll",
+      "bytes": 91136
+    },
+    {
+      "path": "greedy/cblas.dll",
+      "bytes": 417280
+    },
+    {
+      "path": "greedy/gdal110.dll",
+      "bytes": 13140480
+    },
+    {
+      "path": "greedy/geos.dll",
+      "bytes": 1243648
+    },
+    {
+      "path": "greedy/geos_c.dll",
+      "bytes": 271872
+    },
+    {
+      "path": "greedy/gsl.dll",
+      "bytes": 2911232
+    },
+    {
+      "path": "greedy/iconv.dll",
+      "bytes": 916480
+    },
+    {
+      "path": "greedy/libcrypto-3-x64.dll",
+      "bytes": 4694016
+    },
+    {
+      "path": "greedy/libcurl.dll",
+      "bytes": 648192
+    },
+    {
+      "path": "greedy/libexpat.dll",
+      "bytes": 124928
+    },
+    {
+      "path": "greedy/libiconv-2.dll",
+      "bytes": 1850401
+    },
+    {
+      "path": "greedy/libintl-9.dll",
+      "bytes": 475769
+    },
+    {
+      "path": "greedy/libmysql.dll",
+      "bytes": 1553920
+    },
+    {
+      "path": "greedy/libpq-new.dll",
+      "bytes": 324608
+    },
+    {
+      "path": "greedy/libpq.dll",
+      "bytes": 324608
+    },
+    {
+      "path": "greedy/libpqxx.dll",
+      "bytes": 364544
+    },
+    {
+      "path": "greedy/libssl-3-x64.dll",
+      "bytes": 779776
+    },
+    {
+      "path": "greedy/libwinpthread-1.dll",
+      "bytes": 52736
+    },
+    {
+      "path": "greedy/libzstd.dll",
+      "bytes": 727552
+    },
+    {
+      "path": "greedy/mat_x64.dll",
+      "bytes": 1657344
+    },
+    {
+      "path": "greedy/mysqlpp.dll",
+      "bytes": 492544
+    },
+    {
+      "path": "greedy/openjp2.dll",
+      "bytes": 171520
+    },
+    {
+      "path": "greedy/pgl_x64.dll",
+      "bytes": 815616
+    },
+    {
+      "path": "greedy/proj.dll",
+      "bytes": 368640
+    },
+    {
+      "path": "greedy/randlib.dll",
+      "bytes": 77312
+    },
+    {
+      "path": "greedy/shapelib.dll",
+      "bytes": 252416
+    },
+    {
+      "path": "greedy/spatialite.dll",
+      "bytes": 7776768
+    },
+    {
+      "path": "greedy/TNA_x64.lib",
+      "bytes": 115766
+    },
+    {
+      "path": "greedy/TNADriver.dll",
+      "bytes": 149504
+    },
+    {
+      "path": "greedy/TNADriver.lib",
+      "bytes": 2112
+    },
+    {
+      "path": "greedy/tnm_x64.dll",
+      "bytes": 318976
+    },
+    {
+      "path": "greedy/tnmder_x64.dll",
+      "bytes": 454656
+    },
+    {
+      "path": "greedy/vnapp_x64.dll",
+      "bytes": 887808
+    },
+    {
+      "path": "greedy/VRPN_x64.dll",
+      "bytes": 347648
+    },
+    {
+      "path": "greedy/vtnm_x64.dll",
+      "bytes": 1525760
+    },
+    {
+      "path": "greedy/xerces-c_2_8.dll",
+      "bytes": 3367424
+    },
+    {
+      "path": "greedy/zlib1.dll",
+      "bytes": 91136
+    },
+    {
+      "path": "odtna/cblas.dll",
+      "bytes": 417280
+    },
+    {
+      "path": "odtna/CTAPDriver.dll",
+      "bytes": 357376
+    },
+    {
+      "path": "odtna/gdal110.dll",
+      "bytes": 13140480
+    },
+    {
+      "path": "odtna/geos.dll",
+      "bytes": 1243648
+    },
+    {
+      "path": "odtna/geos_c.dll",
+      "bytes": 271872
+    },
+    {
+      "path": "odtna/gsl.dll",
+      "bytes": 2911232
+    },
+    {
+      "path": "odtna/iconv.dll",
+      "bytes": 916480
+    },
+    {
+      "path": "odtna/libcrypto-3-x64.dll",
+      "bytes": 4694016
+    },
+    {
+      "path": "odtna/libcurl.dll",
+      "bytes": 648192
+    },
+    {
+      "path": "odtna/libexpat.dll",
+      "bytes": 124928
+    },
+    {
+      "path": "odtna/libiconv-2.dll",
+      "bytes": 1850401
+    },
+    {
+      "path": "odtna/libintl-9.dll",
+      "bytes": 475769
+    },
+    {
+      "path": "odtna/libmysql.dll",
+      "bytes": 1553920
+    },
+    {
+      "path": "odtna/libpq-new.dll",
+      "bytes": 324608
+    },
+    {
+      "path": "odtna/libpq.dll",
+      "bytes": 312832
+    },
+    {
+      "path": "odtna/libpqxx.dll",
+      "bytes": 364544
+    },
+    {
+      "path": "odtna/libssl-3-x64.dll",
+      "bytes": 779776
+    },
+    {
+      "path": "odtna/libwinpthread-1.dll",
+      "bytes": 52736
+    },
+    {
+      "path": "odtna/libzstd.dll",
+      "bytes": 727552
+    },
+    {
+      "path": "odtna/mat_x64.dll",
+      "bytes": 1558528
+    },
+    {
+      "path": "odtna/msvcp110.dll",
+      "bytes": 661456
+    },
+    {
+      "path": "odtna/msvcr110.dll",
+      "bytes": 849360
+    },
+    {
+      "path": "odtna/mysqlpp.dll",
+      "bytes": 492544
+    },
+    {
+      "path": "odtna/openjp2.dll",
+      "bytes": 171520
+    },
+    {
+      "path": "odtna/pgl_x64.dll",
+      "bytes": 815616
+    },
+    {
+      "path": "odtna/proj.dll",
+      "bytes": 368640
+    },
+    {
+      "path": "odtna/randlib.dll",
+      "bytes": 77312
+    },
+    {
+      "path": "odtna/shapelib.dll",
+      "bytes": 252416
+    },
+    {
+      "path": "odtna/spatialite.dll",
+      "bytes": 7776768
+    },
+    {
+      "path": "odtna/TNA_x64.lib",
+      "bytes": 128608
+    },
+    {
+      "path": "odtna/TNADriver.dll",
+      "bytes": 139264
+    },
+    {
+      "path": "odtna/TNADriver.lib",
+      "bytes": 2028
+    },
+    {
+      "path": "odtna/tnm_x64.dll",
+      "bytes": 349184
+    },
+    {
+      "path": "odtna/tnmder_x64.dll",
+      "bytes": 454656
+    },
+    {
+      "path": "odtna/vcruntime140.dll",
+      "bytes": 120400
+    },
+    {
+      "path": "odtna/vnapp_x64.dll",
+      "bytes": 887808
+    },
+    {
+      "path": "odtna/VRPN_x64.dll",
+      "bytes": 347648
+    },
+    {
+      "path": "odtna/vtnm_x64.dll",
+      "bytes": 1525760
+    },
+    {
+      "path": "odtna/xerces-c_2_8.dll",
+      "bytes": 3367424
+    },
+    {
+      "path": "odtna/zlib1.dll",
+      "bytes": 91136
+    },
+    {
+      "path": "trip/dist_dll/trip_model.dll",
+      "bytes": 350720
+    },
+    {
+      "path": "trip/dist_dll/wrapper.lib",
+      "bytes": 2420
+    }
+  ],
+  "business_http_server_source": "Not present in the supplied development kit",
+  "complete_business_database_migrations": "Not present in the supplied development kit"
+}

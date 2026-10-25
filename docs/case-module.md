@@ -72,6 +72,12 @@ API 的 `menu[]`（`GET /api/project/detail`）与 `list[]`（`GET /api/case/lis
 
 ## WFS 与导入导出
 
+### 联网代理兼容
+
+WFS 使用 QGIS 独立的网络管理器，不能只验证登录所用的 Qt 网络请求。`QgisBackendProxy` 在全局请求预处理器中为当前线程的 QGIS NAM 添加后端 origin 的直连名单，保留其它地址的代理规则；这也覆盖 WFS provider 的工作线程。QGIS 3.40 的 `insertProxyFactory` 链路会先查询系统代理，因此不再通过该方式实现业务后端直连。
+
+`tests/networkproxy/qgis_proxy_tests.cpp` 覆盖主/工作线程路由、其它地址代理保留及可选的实际图层读取。
+
 ### CaseWfsMapController
 
 - WFS 2.0：`buildWfsDataSourceUri`（`url` + `typename` + `version=2.0.0` + `srsname=EPSG:4326`；**不在 URI 附加 filter/cql_filter**；**不**设 `skipInitialGetFeature`）

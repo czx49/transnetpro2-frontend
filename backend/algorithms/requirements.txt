@@ -1,0 +1,6 @@
+# Match the Python/native DLL runtime supplied by the project when integrating.
+numpy
+pandas
+psycopg2-binary
+tqdm
+openpyxl

@@ -31,6 +31,7 @@
 
 | 文档 | 内容 |
 |------|------|
+| [后端联调与算法资产](../backend/README.md) | 业务服务边界、已有算法源码、历史接口契约与数据验收 |
 | [`api.md`](api.md) | 完整 REST/WFS 接口说明（含 Phase2 客户端约定） |
 | [`swagger-interfaces-current.json`](swagger-interfaces-current.json) | Apifox / OpenAPI 2.0 导入 |
 

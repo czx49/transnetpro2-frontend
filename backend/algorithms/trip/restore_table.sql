@@ -1,0 +1,24 @@
+BEGIN;
+
+-- PA还原
+DROP TABLE IF EXISTS user_project.project72_user1_other_trip_production_attraction CASCADE;
+CREATE TABLE user_project.project72_user1_other_trip_production_attraction
+(LIKE user_project.project72_user1_other_trip_production_attraction_bak INCLUDING ALL);
+INSERT INTO user_project.project72_user1_other_trip_production_attraction
+SELECT * FROM user_project.project72_user1_other_trip_production_attraction_bak;
+
+-- OD还原
+DROP TABLE IF EXISTS user_project.project72_user1_other_od CASCADE;
+CREATE TABLE user_project.project72_user1_other_od
+(LIKE user_project.project72_user1_other_od_bak INCLUDING ALL);
+INSERT INTO user_project.project72_user1_other_od
+SELECT * FROM user_project.project72_user1_other_od_bak;
+
+-- hist还原
+DROP TABLE IF EXISTS user_project.project72_user1_other_trip_distribution_hist CASCADE;
+CREATE TABLE user_project.project72_user1_other_trip_distribution_hist
+(LIKE user_project.project72_user1_other_trip_distribution_hist_bak INCLUDING ALL);
+INSERT INTO user_project.project72_user1_other_trip_distribution_hist
+SELECT * FROM user_project.project72_user1_other_trip_distribution_hist_bak;
+
+COMMIT;

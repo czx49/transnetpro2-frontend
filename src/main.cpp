@@ -10,6 +10,7 @@
 #include "appwindow.h"
 #include "httpapis/backendproxyfactory.h"
 #include "httpapis/httpserverconfig.h"
+#include "httpapis/qgisbackendproxy.h"
 #include "casectrls/casewfsmapcontroller.h"
 #include "qgsapplication.h"
 #include "qgseditorwidgetregistry.h"
@@ -80,11 +81,7 @@ int main(int argc, char* argv[])
     QgsApplication::initQgis();
     const QUrl backendUrl(HttpServerConfig::instance().hostName());
     QNetworkProxyFactory::setApplicationProxyFactory(new BackendProxyFactory(backendUrl));
-    // QGIS has a separate proxy chain. Return no decision for unrelated destinations.
-    QgsNetworkAccessManager::instance()->insertProxyFactory(
-        new BackendProxyFactory(backendUrl, [](const QNetworkProxyQuery&) {
-            return QList<QNetworkProxy>();
-        }));
+    const QString qgisProxyPreprocessor = QgisBackendProxy::install(backendUrl);
     // 属性表内联编辑依赖编辑器工厂；未 initEditors 时 createEditor 会空指针崩溃
     QgsGui::editorWidgetRegistry()->initEditors(nullptr);
     CaseWfsMap::setupWfsProviderCachingPolicy();
@@ -115,6 +112,7 @@ int main(int argc, char* argv[])
     }
     CaseWfsMap::prepareForShutdown();
     QgsProject::instance()->removeAllMapLayers();
+    QgsNetworkAccessManager::removeRequestPreprocessor(qgisProxyPreprocessor);
     // 清理 QGIS 资源
     QgsApplication::exitQgis();
     return result;

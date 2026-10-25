@@ -4,6 +4,8 @@ TransNetPro2 Phase2：Qt5/C++ + QGIS + GDAL 交通网络桌面应用（首页 + 
 
 当前仅推进联网版，离线计划已停止。开发入口：`scripts/build_online.ps1` / `scripts/launch_online.ps1`；操作与协作步骤见 [`docs/online-development.md`](docs/online-development.md)。
 
+团队职责是前端优化，同时保留真实后端链路、接口模型、算法与联调资料；已有后端资产见 [`backend/README.md`](backend/README.md)。
+
 > **文档分层**：本文件只保留必要摘要。**详细说明在 [`docs/`](docs/README.md)**；更新项目文档时须保持本文件精简，详见 [`docs/documentation-policy.md`](docs/documentation-policy.md)。
 
 ## 快速构建

@@ -121,3 +121,12 @@ resources/prototype_uidesign_extract.md
 __pycache__/
 /ai_client.ini
 /src/ai_client.ini
+
+# Backend runtime credentials, native artifacts and generated project data
+/backend/algorithms/**/*.json
+/backend/algorithms/**/*.csv
+/backend/algorithms/**/*.xlsx
+/backend/algorithms/**/*.tif
+/backend/algorithms/**/*.lib
+/backend/algorithms/**/*.pyd
+/backend/algorithms/**/pyhome/

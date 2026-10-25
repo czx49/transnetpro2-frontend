@@ -1,0 +1,35 @@
+{
+  "db_conn_str": {
+    "host": "localhost",
+    "port": 5432,
+    "dbname": "trip_generation_db",
+    "user": "postgres",
+    "password": "<CONFIGURE_LOCALLY>",
+    "role": "user_project",
+    "scenario_prefix": "test"
+  },
+  "algorithm_params": {
+    "production_rates": {
+      "pop": 2.0,
+      "cars": 0.7,
+      "eind": 0.1,
+      "eret": 0.2,
+      "eoth": 0.15,
+      "du": 0.1,
+      "hinc": 0.000005,
+      "area": 0.0,
+      "etot": 0.0
+    },
+    "attraction_rates": {
+      "pop": 0.5,
+      "cars": 0.1,
+      "eind": 1.5,
+      "eret": 3.0,
+      "eoth": 1.5,
+      "du": 0.1,
+      "hinc": 0.000005,
+      "area": 0.1,
+      "etot": 0.0
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "network_table": "user_project.project72_user1_road_way",
+  "od_table": "user_project.project72_user1_other_od",
+  "algorithm_params": {
+    "conv": 1e-06,
+    "cost_coef_time": 1.0,
+    "cost_scalar": 60.0,
+    "lpf": "BPRLK",
+    "max_iter": 500,
+    "report_demand_detail": true,
+    "report_linkinfo_detail": true,
+    "report_path_detail": true,
+    "report_upper_objective": true
+  },
+  "db_conn_str": {
+    "dbname": "urban",
+    "host": "211.149.178.166",
+    "user": "postgres",
+    "password": "<CONFIGURE_LOCALLY>",
+    "port": 5432,
+    "scenario_prefix": "project72_user1"
+  },
+  "report_iter_history": true,
+  "report_link_detail": true,
+  "report_path_detail": true
+}
