@@ -1,0 +1,168 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="icon.ico">icon.ico</file>
+        <file>icons/urban_planning.png</file>
+        <file>icons/urban_planning@2x.png</file>
+        <file>icons/traffic_planning.png</file>
+        <file>icons/traffic_planning@2x.png</file>
+        <file>icons/traffic_control.png</file>
+        <file>icons/traffic_control@2x.png</file>
+        <file>icons/traffic_policy.png</file>
+        <file>icons/traffic_policy@2x.png</file>
+        <file>icons/public_transport.png</file>
+        <file>icons/public_transport@2x.png</file>
+
+        <file>icons/add_project.png</file>
+        <file>icons/add_project@2x.png</file>
+        <file>icons/add_project_1.png</file>
+        <file>icons/add_project_1@2x.png</file>
+        <file>icons/edit_project.png</file>
+        <file>icons/delete_project.png</file>
+        <file>icons/delete.png</file>
+        <file>icons/delete@2x.png</file>
+        <file>icons/delete_1.png</file>
+        <file>icons/delete_1@2x.png</file>
+        <file>icons/delete_2.png</file>
+        <file>icons/delete_2@2x.png</file>
+        <file>icons/delete_3.png</file>
+        <file>icons/delete_3@2x.png</file>
+        <file>icons/search.png</file>
+        <file>icons/search@2x.png</file>
+        <file>icons/view.png</file>
+        <file>icons/view@2x.png</file>
+        <file>icons/view_1.png</file>
+        <file>icons/view_1@2x.png</file>
+        <file>icons/view_2.png</file>
+        <file>icons/view_2@2x.png</file>
+        <file>icons/rename.png</file>
+        <file>icons/rename@2x.png</file>
+        <file>icons/copy.png</file>
+        <file>icons/copy@2x.png</file>
+
+        <file>icons/navigation.png</file>
+        <file>icons/navigation@2x.png</file>
+        <file>icons/dropdown.png</file>
+        <file>icons/dropdown@2x.png</file>
+        <file>icons/more.png</file>
+        <file>icons/more@2x.png</file>
+        <file>icons/close.png</file>
+        <file>icons/close@2x.png</file>
+        <file>icons/close_1.png</file>
+        <file>icons/close_1@2x.png</file>
+        <file>icons/minisize.png</file>
+        <file>icons/maxsize.png</file>
+        <file>icons/normalsize.png</file>
+        <file>icons/closebtn.png</file>
+        <file>icons/checked.png</file>
+        <file>icons/checked@2x.png</file>
+        <file>icons/compare_view.png</file>
+        <file>icons/compare_view@2x.png</file>
+
+        <file>icons/folder_open.png</file>
+        <file>icons/folder_open@2x.png</file>
+        <file>icons/folder_open_1.png</file>
+        <file>icons/folder_open_1@2x.png</file>
+        <file>icons/document.png</file>
+        <file>icons/document@2x.png</file>
+        <file>icons/database.png</file>
+        <file>icons/database@2x.png</file>
+        <file>icons/chart.png</file>
+        <file>icons/chart@2x.png</file>
+
+        <file>icons/email.png</file>
+        <file>icons/email@2x.png</file>
+        <file>icons/email_1.png</file>
+        <file>icons/email_1@2x.png</file>
+        <file>icons/email_2.png</file>
+        <file>icons/email_2@2x.png</file>
+        <file>icons/phone.png</file>
+        <file>icons/phone@2x.png</file>
+        <file>icons/location.png</file>
+        <file>icons/location@2x.png</file>
+        <file>icons/user.png</file>
+        <file>icons/user@2x.png</file>
+        <file>icons/login_user.png</file>
+        <file>icons/login_password.png</file>
+
+        <file>icons/teaching_mode.png</file>
+        <file>icons/teaching_mode@2x.png</file>
+        <file>icons/settings.png</file>
+        <file>icons/settings@2x.png</file>
+        <file>icons/home.png</file>
+        <file>icons/refresh.png</file>
+
+        <file>icons/case_tb_pan.png</file>
+        <file>icons/case_tb_select.png</file>
+        <file>icons/case_tb_edit.png</file>
+        <file>icons/case_tb_add_feature.png</file>
+        <file>icons/case_tb_delete.png</file>
+        <file>icons/case_tb_save.png</file>
+        <file>icons/revoke.png</file>
+        <file>icons/case_tb_clip.png</file>
+        <file>icons/case_tb_symbol.png</file>
+        <file>icons/case_tb_clear.png</file>
+        <file>icons/case_tb_centroid.png</file>
+        <file>icons/case_tb_desireline.png</file>
+        <file>icons/case_tb_flow.png</file>
+        <file>icons/case_tb_attr_filter.png</file>
+        <file>icons/case_tb_export_map.png</file>
+        <file>icons/refreshdata.png</file>
+        <file>icons/case_tb_workbench.png</file>
+
+        <file>icons/workspace_motor.png</file>
+        <file>icons/workspace_motor_checked.png</file>
+        <file>icons/workspace_bus.png</file>
+        <file>icons/workspace_bus_checked.png</file>
+        <file>icons/workspace_traffic.png</file>
+        <file>icons/workspace_traffic_checked.png</file>
+        <file>icons/workspace_data_support.png</file>
+        <file>icons/workspace_flow.png</file>
+        <file>icons/workspace_run.png</file>
+        <file>icons/workspace_ai_assistant.png</file>
+        <file>icons/workspace_send.png</file>
+		<file>icons/edit_case.png</file>
+		<file>icons/report.png</file>
+		<file>icons/data_report.png</file>
+		<file>icons/flow_data.png</file>
+		<file>icons/osm_data.png</file>
+		<file>icons/diff.png</file>
+		<file>icons/od_dist.png</file>
+		<file>icons/traffic_sat.png</file>
+		<file>icons/close_1.png</file>
+		<file>icons/close.png</file>
+		<file>icons/closebtn_1.png</file>
+		<file>icons/closebtn_1@2x.png</file>
+		<file alias="icons/zoom_in.png">icons/navigation.png</file>
+        <file alias="icons/zoom_in@2x.png">icons/navigation@2x.png</file>
+        <file alias="icons/zoom_out.png">icons/dropdown.png</file>
+        <file alias="icons/zoom_out@2x.png">icons/dropdown@2x.png</file>
+        <file alias="icons/edit.png">icons/view_1.png</file>
+        <file alias="icons/edit@2x.png">icons/view_1@2x.png</file>
+        <file alias="icons/measure.png">icons/chart.png</file>
+        <file alias="icons/measure@2x.png">icons/chart@2x.png</file>
+        <file alias="icons/statistics.png">icons/chart.png</file>
+        <file alias="icons/statistics@2x.png">icons/chart@2x.png</file>
+        <file alias="icons/connect.png">icons/compare_view.png</file>
+        <file alias="icons/connect@2x.png">icons/compare_view@2x.png</file>
+        <file alias="icons/share.png">icons/copy.png</file>
+        <file alias="icons/share@2x.png">icons/copy@2x.png</file>
+        <file alias="icons/print.png">icons/document.png</file>
+        <file alias="icons/print@2x.png">icons/document@2x.png</file>
+        <file alias="icons/waveform.png">icons/chart.png</file>
+        <file alias="icons/waveform@2x.png">icons/chart@2x.png</file>
+
+        <file alias="login-background">icons/login-background.jpg</file>
+
+        <file alias="arrow_right.png">icons/arrow_right.png</file>
+        <file alias="arrow_right_hover.png">icons/arrow_right_hover.png</file>
+        <file alias="arrow_down.png">icons/arrow_down.png</file>
+        <file alias="arrow_down_hover.png">icons/arrow_down_hover.png</file>
+    </qresource>
+    <qresource prefix="/config">
+        <file alias="algorithmConfig.json">config/algorithmConfig.json</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file>fonts/AlibabaPuHuiTi-3-45-Light.ttf</file>
+		<file>fonts/AlibabaPuHuiTi-3-55-Regular.ttf</file>
+    </qresource>
+</RCC>

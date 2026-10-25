@@ -1,0 +1,4152 @@
+{
+  "info": {
+    "title": "TransNet Pro Phase2 API",
+    "description": "与线上一致接口文档同步：http://gisapi.jiheshop.com/api/config/api（2026-07-05）。除登录与标注为公开的接口外，均需在请求头携带 JWT：`Authorization: Bearer <token>`，Token 来自 `POST /api/user/login` 的 `data.token`。\n\n【Apifox 鉴权】OpenAPI 无法声明「自动把登录返回值写入后续请求」；请在本导入项目中配置：1）环境变量 `token`（初值留空）；2）在「POST /api/user/login」接口「后置操作 → 提取变量（JSONPath）」：`$.data.token` → 保存到环境变量 `token`；3）「项目设置 → 鉴权」选择 Bearer Token，值为 `{{token}}`（若映射为 API Key、Header 名 `Authorization`，则值填 `Bearer {{token}}`）；4）项目根目录或父目录 Auth 绑定 `BearerAuth` 并勾选继承。根级 `security` 已默认 `BearerAuth`，公开接口在 operation 级显式 `security: []` 覆盖。\n\n【Apifox 重新导入检查清单】重新导入 swagger 后鉴权不会自动恢复，请逐项确认：① 环境变量 `token` 仍存在；② `POST /api/user/login` 后置操作仍提取 `$.data.token` → `token`；③ 项目/目录 Auth 仍绑定 BearerAuth；④ 导入时开启「导入 Security Scheme」并勾选「将全局鉴权应用于项目根目录」，冲突选「智能合并」，资源清理选「不删除」；⑤ 先调登录再调 `GET /api/project/page`，Request Headers 应含 `Authorization: Bearer ...`。\n\n根扩展 `x-apifox-token-binding` 仅作导入后人工对照，Apifox 不会自动执行其中脚本。",
+    "version": "1.0.7"
+  },
+  "host": "gisapi.jiheshop.com",
+  "schemes": [
+    "http"
+  ],
+  "tags": [
+    {
+      "name": "config",
+      "description": "基础信息"
+    },
+    {
+      "name": "user",
+      "description": "用户管理"
+    },
+    {
+      "name": "project",
+      "description": "项目管理"
+    },
+    {
+      "name": "case",
+      "description": "方案管理"
+    },
+    {
+      "name": "files",
+      "description": "文件管理"
+    },
+    {
+      "name": "news",
+      "description": "文章管理"
+    },
+    {
+      "name": "grpc",
+      "description": "算法管理"
+    }
+  ],
+  "paths": {
+    "/api/config/base": {
+      "get": {
+        "summary": "获取基础信息（首页内容、联系我们、地图 URL 等）",
+        "deprecated": false,
+        "description": "获取基础信息（首页内容、联系我们、地图 URL 等）",
+        "tags": [
+          "config"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "site_name": {
+                      "type": "string"
+                    },
+                    "mapurl": {
+                      "type": "string"
+                    },
+                    "mapurl2": {
+                      "type": "string"
+                    },
+                    "mapurl3": {
+                      "type": "string"
+                    },
+                    "maxkb": {
+                      "type": "string"
+                    },
+                    "mapselurl": {
+                      "type": "string"
+                    },
+                    "tit1": {
+                      "type": "string"
+                    },
+                    "tit2": {
+                      "type": "string"
+                    },
+                    "titlist": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "tit": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "contact": {
+                      "type": "string"
+                    },
+                    "email1": {
+                      "type": "string"
+                    },
+                    "email2": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string"
+                    },
+                    "study_url": {
+                      "type": "string"
+                    },
+                    "manual_url": {
+                      "type": "string"
+                    },
+                    "ai_url": {
+                      "type": "string"
+                    },
+                    "help_list": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "img": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/config/getversion": {
+      "get": {
+        "summary": "获取最新版本信息",
+        "deprecated": false,
+        "description": "GET /api/config/getversion，公开接口。",
+        "tags": [
+          "config"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "version": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "md5": {
+                      "type": "string"
+                    },
+                    "size": {
+                      "type": "string"
+                    },
+                    "desc": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/config/aiconfig": {
+      "get": {
+        "summary": "AI 多级选词配置",
+        "deprecated": false,
+        "description": "GET /api/config/aiconfig，公开接口。返回 data[] 树形节点（id、pid、level、title、children）。",
+        "tags": [
+          "config"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "pid": {
+                        "type": "integer"
+                      },
+                      "level": {
+                        "type": "integer"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "children": {
+                        "type": "array",
+                        "items": {
+                          "type": "object"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/config/question": {
+      "get": {
+        "summary": "AI 多级选词下的常见问题",
+        "deprecated": false,
+        "description": "GET /api/config/question，公开接口。",
+        "tags": [
+          "config"
+        ],
+        "parameters": [
+          {
+            "name": "isbase",
+            "in": "query",
+            "description": "1 基础方案，0 普通方案",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "机动车 motor，慢行 slow，公交 bus",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/config/regions": {
+      "get": {
+        "summary": "省市列表",
+        "deprecated": false,
+        "description": "GET /api/config/regions，公开接口。province=0 返回全部省份；传省 id 返回该省下城市。",
+        "tags": [
+          "config"
+        ],
+        "parameters": [
+          {
+            "name": "province",
+            "in": "query",
+            "description": "0 全部；各省 id",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/user/login": {
+      "post": {
+        "summary": "用户登录",
+        "deprecated": false,
+        "description": "用户登录",
+        "tags": [
+          "user"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "用户名"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "密码"
+                }
+              },
+              "required": [
+                "username",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "user_id": {
+                          "type": "integer"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "real_name": {
+                          "type": "string"
+                        },
+                        "mobile": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "project_num": {
+                          "type": "integer"
+                        },
+                        "url": {
+                          "type": "string"
+                        },
+                        "mapurl": {
+                          "type": "string"
+                        },
+                        "mapurl_vector": {
+                          "type": "string"
+                        },
+                        "mapurl_note": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/user/change-password": {
+      "post": {
+        "summary": "修改用户密码",
+        "deprecated": false,
+        "description": "修改用户密码",
+        "tags": [
+          "user"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "oldPassword": {
+                  "type": "string",
+                  "description": "旧密码"
+                },
+                "newPassword": {
+                  "type": "string",
+                  "description": "新密码"
+                },
+                "confirmNewPassword": {
+                  "type": "string",
+                  "description": "确认新密码"
+                }
+              },
+              "required": [
+                "oldPassword",
+                "newPassword",
+                "confirmNewPassword"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/page": {
+      "get": {
+        "summary": "获取项目分页列表（支持分页）",
+        "deprecated": false,
+        "description": "获取项目分页列表（支持分页）",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码，默认 1",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "每页数量，默认 10",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "项目名称筛选",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "desc": {
+                            "type": "string"
+                          },
+                          "users": {
+                            "type": "array",
+                            "items": {
+                              "type": "integer"
+                            }
+                          },
+                          "num": {
+                            "type": "integer"
+                          },
+                          "status": {
+                            "type": "integer"
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "updated_at": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "total": {
+                      "type": "integer"
+                    },
+                    "page": {
+                      "type": "integer"
+                    },
+                    "limit": {
+                      "type": "integer"
+                    },
+                    "totalPages": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/select_data_all": {
+      "get": {
+        "summary": "表数据查询（全量）",
+        "deprecated": false,
+        "description": "GET /api/project/select_data_all，公开接口。",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "name": "tablefullname",
+            "in": "query",
+            "description": "表名",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/select_data_page": {
+      "get": {
+        "summary": "表数据查询（分页）",
+        "deprecated": false,
+        "description": "GET /api/project/select_data_page，公开接口。",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "name": "tablefullname",
+            "in": "query",
+            "description": "表名",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "每页数量",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/add": {
+      "post": {
+        "summary": "创建项目",
+        "deprecated": false,
+        "description": "创建项目",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "项目名称"
+                },
+                "desc": {
+                  "type": "string",
+                  "description": "项目描述"
+                },
+                "province_id": {
+                  "type": "number",
+                  "description": "省 ID"
+                },
+                "province": {
+                  "type": "string",
+                  "description": "省名称"
+                },
+                "city_id": {
+                  "type": "number",
+                  "description": "市 ID"
+                },
+                "city": {
+                  "type": "string",
+                  "description": "市名称"
+                }
+              },
+              "required": [
+                "name",
+                "province_id",
+                "province",
+                "city_id",
+                "city"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/detail": {
+      "get": {
+        "summary": "获取项目详情",
+        "deprecated": false,
+        "description": "获取项目详情",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "desc": {
+                          "type": "string"
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          }
+                        },
+                        "num": {
+                          "type": "integer"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "sort": {
+                          "type": "integer"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "is_delete": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "dbfix": {
+                      "type": "string"
+                    },
+                    "dbuserfix": {
+                      "type": "string"
+                    },
+                    "algorithm_params": {
+                      "type": "object",
+                      "properties": {
+                        "conv": {
+                          "type": "string"
+                        },
+                        "max_iter": {
+                          "type": "integer"
+                        },
+                        "cost_scalar": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "osmurl": {
+                      "type": "string"
+                    },
+                    "menu": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          },
+                          "children": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "string"
+                                },
+                                "val": {
+                                  "type": "string"
+                                },
+                                "level": {
+                                  "type": "integer"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/edit": {
+      "post": {
+        "summary": "编辑项目",
+        "deprecated": false,
+        "description": "编辑项目",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "description": "项目 ID"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "项目名称"
+                },
+                "desc": {
+                  "type": "string",
+                  "description": "项目描述"
+                },
+                "province_id": {
+                  "type": "number",
+                  "description": "省 ID"
+                },
+                "province": {
+                  "type": "string",
+                  "description": "省名称"
+                },
+                "city_id": {
+                  "type": "number",
+                  "description": "市 ID"
+                },
+                "city": {
+                  "type": "string",
+                  "description": "市名称"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "province_id",
+                "province",
+                "city_id",
+                "city"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/del": {
+      "post": {
+        "summary": "删除项目（移到回收站）",
+        "deprecated": false,
+        "description": "删除项目（移到回收站）",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "description": "项目 ID"
+                }
+              },
+              "required": [
+                "id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/export": {
+      "get": {
+        "summary": "导出项目表数据（TXT 或 XLSX 格式，保存在 MinIO）",
+        "deprecated": false,
+        "description": "导出项目表数据（TXT 或 XLSX 格式，保存在 MinIO）",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "table",
+            "in": "query",
+            "description": "表名",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "导出类型（txt/xlsx）",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案 ID；基础数据填 0，方案上下文填对应方案 id",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "fileName": {
+                      "type": "string"
+                    },
+                    "downloadUrl": {
+                      "type": "string"
+                    },
+                    "bucket": {
+                      "type": "string"
+                    },
+                    "fileSize": {
+                      "type": "integer"
+                    },
+                    "recordCount": {
+                      "type": "integer"
+                    },
+                    "exportType": {
+                      "type": "string"
+                    },
+                    "tableName": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/clrtable": {
+      "post": {
+        "summary": "清空项目表数据",
+        "deprecated": false,
+        "description": "清空项目表数据",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "project_id": {
+                  "type": "number",
+                  "description": "项目 ID"
+                },
+                "table": {
+                  "type": "string",
+                  "description": "表名"
+                }
+              },
+              "required": [
+                "project_id",
+                "table"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/popdata": {
+      "post": {
+        "summary": "生成人口数据",
+        "deprecated": false,
+        "description": "客户端本地分区统计后提交 area_id 与 pop_sum 数组，服务端写回图层字段",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "project_id": {
+                  "type": "number",
+                  "description": "项目 ID"
+                },
+                "data": {
+                  "type": "array",
+                  "description": "人口统计数组",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "area_id": {
+                        "type": "integer"
+                      },
+                      "pop_sum": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "area_id",
+                      "pop_sum"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "project_id",
+                "data"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/gen_community": {
+      "post": {
+        "summary": "批量生成小区",
+        "deprecated": false,
+        "description": "按 polygon 几何与人口/发生量批量写入小区图层",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "project_id": {
+                  "type": "number",
+                  "description": "项目 ID"
+                },
+                "data": {
+                  "type": "array",
+                  "description": "小区数组",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "pop_sum": {
+                        "type": "number"
+                      },
+                      "traffic_generation_volume": {
+                        "type": "number"
+                      },
+                      "geometry": {
+                        "type": "string",
+                        "description": "WKT POLYGON"
+                      }
+                    },
+                    "required": [
+                      "pop_sum",
+                      "traffic_generation_volume",
+                      "geometry"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "project_id",
+                "data"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "inserted": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/exportcase": {
+      "get": {
+        "summary": "导出方案",
+        "deprecated": false,
+        "description": "导出方案",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案id",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/update_centroid": {
+      "get": {
+        "summary": "生成质心",
+        "deprecated": false,
+        "description": "生成质心",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案id",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "tablefullname",
+            "in": "query",
+            "description": "表全名（如：project64_user1_case64_road_community）",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/clip": {
+      "post": {
+        "summary": "路段裁剪 by 小区",
+        "deprecated": false,
+        "description": "路段裁剪 by 小区",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "project_id": {
+                  "type": "number",
+                  "description": "项目 ID"
+                },
+                "case_id": {
+                  "type": "number",
+                  "description": "方案id"
+                },
+                "way_table": {
+                  "type": "string",
+                  "description": "表"
+                },
+                "community_table": {
+                  "type": "string",
+                  "description": "表"
+                },
+                "clip_name": {
+                  "type": "string",
+                  "description": "裁剪图层"
+                }
+              },
+              "required": [
+                "project_id",
+                "case_id",
+                "way_table",
+                "community_table",
+                "clip_name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/clippart": {
+      "post": {
+        "summary": "自定义裁剪路段",
+        "deprecated": false,
+        "description": "自定义裁剪路段",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "project_id": {
+                  "type": "number",
+                  "description": "项目 ID"
+                },
+                "case_id": {
+                  "type": "number",
+                  "description": "方案id"
+                },
+                "way_table": {
+                  "type": "string",
+                  "description": "表"
+                },
+                "clip_name": {
+                  "type": "string",
+                  "description": "裁剪图层"
+                },
+                "wkt": {
+                  "type": "string",
+                  "description": "wkt"
+                }
+              },
+              "required": [
+                "project_id",
+                "case_id",
+                "way_table",
+                "clip_name",
+                "wkt"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/clipdel": {
+      "get": {
+        "summary": "删除裁剪图层",
+        "deprecated": false,
+        "description": "删除裁剪图层",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案id",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "tablefullname",
+            "in": "query",
+            "description": "删除的表",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/project/base_analysis": {
+      "get": {
+        "summary": "基础/现状数据分析（已废弃）",
+        "deprecated": true,
+        "description": "已废弃，请改用 GET /api/case/basedata_view。",
+        "tags": [
+          "project"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/listAll": {
+      "get": {
+        "summary": "获取项目方案列表（当前登录用户，查询所有数据）",
+        "deprecated": false,
+        "description": "获取项目方案列表（当前登录用户，查询所有数据）",
+        "tags": [
+          "case"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/list": {
+      "get": {
+        "summary": "获取项目方案列表（支持筛选和分页）",
+        "deprecated": false,
+        "description": "获取项目方案列表（支持筛选和分页）",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码，默认 1",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "每页数量，默认 10",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/detail/{id}": {
+      "get": {
+        "summary": "获取项目方案详情（包含路段总数、小区总数、节点总数等）",
+        "deprecated": false,
+        "description": "获取项目方案详情（包含路段总数、小区总数、节点总数等）",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/add": {
+      "post": {
+        "summary": "创建项目方案",
+        "deprecated": false,
+        "description": "创建项目方案",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "方案名称"
+                },
+                "project_id": {
+                  "type": "number",
+                  "description": "项目"
+                },
+                "case_type_id": {
+                  "type": "number",
+                  "description": "方案类型ID"
+                },
+                "road_types": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "公交基础数据"
+                },
+                "bus_types": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "道路基础数据"
+                },
+                "other_types": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "其它基础数据"
+                }
+              },
+              "required": [
+                "name",
+                "project_id",
+                "case_type_id",
+                "road_types",
+                "bus_types",
+                "other_types"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/edit": {
+      "post": {
+        "summary": "编辑项目方案",
+        "deprecated": false,
+        "description": "编辑项目方案",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "方案名称"
+                },
+                "id": {
+                  "type": "number",
+                  "description": "方案id"
+                },
+                "case_type_id": {
+                  "type": "number",
+                  "description": "方案类型ID"
+                },
+                "road_types": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "公交基础数据"
+                },
+                "bus_types": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "道路基础数据"
+                },
+                "other_types": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "其它基础数据"
+                }
+              },
+              "required": [
+                "name",
+                "id",
+                "case_type_id",
+                "road_types",
+                "bus_types",
+                "other_types"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/edit-name": {
+      "post": {
+        "summary": "修改项目方案名称",
+        "deprecated": false,
+        "description": "修改项目方案名称",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "description": "方案id"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "名称"
+                }
+              },
+              "required": [
+                "id",
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/edit-status": {
+      "post": {
+        "summary": "修改项目方案状态",
+        "deprecated": false,
+        "description": "修改项目方案状态",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "description": "方案id"
+                },
+                "status": {
+                  "type": "number",
+                  "description": "状态"
+                }
+              },
+              "required": [
+                "id",
+                "status"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/del/{id}": {
+      "delete": {
+        "summary": "删除项目方案",
+        "deprecated": false,
+        "description": "删除项目方案",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/edit-result": {
+      "post": {
+        "summary": "修改项目方案结果",
+        "deprecated": false,
+        "description": "修改项目方案结果",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "description": "方案id"
+                },
+                "result": {
+                  "type": "string",
+                  "description": "结果"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "地址"
+                }
+              },
+              "required": [
+                "id",
+                "result",
+                "url"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/fieldbatch": {
+      "post": {
+        "summary": "方案道路图层字段数据批量处理",
+        "deprecated": false,
+        "description": "方案道路图层字段数据批量处理",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "project_id": {
+                  "type": "number",
+                  "description": "项目"
+                },
+                "case_id": {
+                  "type": "number",
+                  "description": "方案ID"
+                },
+                "tablefullname": {
+                  "type": "string",
+                  "description": "表"
+                },
+                "field": {
+                  "type": "string",
+                  "description": "字段"
+                },
+                "type": {
+                  "type": "number",
+                  "description": "类型1(加)、2(减)、3(乘)"
+                },
+                "num": {
+                  "type": "number",
+                  "description": "数值"
+                }
+              },
+              "required": [
+                "project_id",
+                "case_id",
+                "tablefullname",
+                "field",
+                "type",
+                "num"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/create_expect_line": {
+      "get": {
+        "summary": "生成期望线",
+        "deprecated": false,
+        "description": "生成期望线",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "tablefullname",
+            "in": "query",
+            "description": "表",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/get_trace": {
+      "get": {
+        "summary": "道路溯源",
+        "deprecated": false,
+        "description": "道路溯源",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "tablefullname",
+            "in": "query",
+            "description": "表",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "link_id",
+            "in": "query",
+            "description": "路段Id",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/export_simulate": {
+      "get": {
+        "summary": "方案仿真数据导出",
+        "deprecated": false,
+        "description": "方案仿真数据导出",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "分析模块：motor（机动车）、slow（慢行）、bus（公交）",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/grpc/case_export": {
+      "get": {
+        "summary": "生成分析报告（流程第一步）",
+        "deprecated": false,
+        "description": "生成分析报告（流程第一步）",
+        "tags": [
+          "grpc"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "分析模块：motor（机动车）、slow（慢行）、bus（公交）",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/ptcase_export": {
+      "get": {
+        "summary": "普通方案生成改造方案报告",
+        "deprecated": false,
+        "description": "普通方案生成改造方案报告",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "分析模块：motor（机动车）、slow（慢行）、bus（公交）",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/copy": {
+      "post": {
+        "summary": "复制项目方案",
+        "deprecated": false,
+        "description": "复制项目方案",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "case_id": {
+                  "type": "number",
+                  "description": "方案 ID"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "新方案名称"
+                }
+              },
+              "required": [
+                "case_id",
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/copyproject": {
+      "post": {
+        "summary": "更新项目基础方案",
+        "deprecated": false,
+        "description": "基础方案右键「覆盖」项目基础数据。",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "case_id": {
+                  "type": "number",
+                  "description": "基础方案 ID"
+                }
+              },
+              "required": [
+                "case_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/export_osm": {
+      "get": {
+        "summary": "OSM 地图数据下载",
+        "deprecated": false,
+        "description": "OSM 地图数据下载",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "分析模块：motor（机动车）、slow（慢行）、bus（公交）",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/report_view": {
+      "get": {
+        "summary": "分析报告查看",
+        "deprecated": false,
+        "description": "分析报告查看",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "分析模块：motor（机动车）、slow（慢行）、bus（公交）",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "content": {
+                      "type": "string",
+                      "description": "HTML 报告内容"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/report_download": {
+      "get": {
+        "summary": "分析报告下载",
+        "deprecated": false,
+        "description": "分析报告下载",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "分析模块：motor（机动车）、slow（慢行）、bus（公交）",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "file_name": {
+                      "type": "string"
+                    },
+                    "file_path": {
+                      "type": "string"
+                    },
+                    "download_url": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/basedata_view": {
+      "get": {
+        "summary": "基础现状数据分析",
+        "deprecated": false,
+        "description": "返回 HTML 报告 content",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "content": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/cost_view": {
+      "get": {
+        "summary": "成本效益分析",
+        "deprecated": false,
+        "description": "返回 HTML 报告 content",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "分析模块：motor（机动车）、slow（慢行）、bus（公交）",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "content": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/casecomparison_view": {
+      "get": {
+        "summary": "方案对比",
+        "deprecated": false,
+        "description": "多方案 HTML 对比报告",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_ids",
+            "in": "query",
+            "description": "方案 ID，逗号分隔，如 1,2,3",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "check_extent",
+            "in": "query",
+            "description": "对比地理范围，GeoJSON Geometry 字符串（Polygon，矩形闭合环；坐标系与方案地图 canvas CRS 一致，通常 EPSG:4326）",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "分析模块：motor（机动车）、slow（慢行）、bus（公交）",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "content": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/case/editlog": {
+      "get": {
+        "summary": "修改方案 log 分页显示",
+        "deprecated": false,
+        "description": "方案修改日志分页查询",
+        "tags": [
+          "case"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "每页数量",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "分析模块：motor（机动车）、slow（慢行）、bus（公交）",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/files/drcsv": {
+      "post": {
+        "summary": "导入 CSV/TXT/XLSX 文件到 MinIO 并导入数据库",
+        "deprecated": false,
+        "description": "导入 CSV/TXT/XLSX 文件到 MinIO 并导入数据库",
+        "tags": [
+          "files"
+        ],
+        "parameters": [
+          {
+            "name": "table",
+            "in": "query",
+            "description": "表名（road_way/bus_community/bus_point/bus_way/road_community 等）",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案 ID；基础数据填 0",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "csv/txt/xlsx",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "上传文件",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/news": {
+      "get": {
+        "summary": "获取文章列表（支持按 bid 筛选）",
+        "deprecated": false,
+        "description": "获取文章列表（支持按 bid 筛选）",
+        "tags": [
+          "news"
+        ],
+        "parameters": [
+          {
+            "name": "bid",
+            "in": "query",
+            "description": "文章分类 ID",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/news/{id}": {
+      "get": {
+        "summary": "获取文章详情",
+        "deprecated": false,
+        "description": "获取文章详情",
+        "tags": [
+          "news"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/grpc/check": {
+      "get": {
+        "summary": "数据检测",
+        "deprecated": false,
+        "description": "数据检测（需鉴权，与线上一致请传 Authorization: Bearer）",
+        "tags": [
+          "grpc"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "机动车 motor, 慢行 slow, 公交 bus",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "way": {
+                      "type": "integer"
+                    },
+                    "point": {
+                      "type": "integer"
+                    },
+                    "community": {
+                      "type": "integer"
+                    },
+                    "od": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/grpc/runalg": {
+      "get": {
+        "summary": "运行算法（同步结果）",
+        "deprecated": false,
+        "description": "运行算法，直接返回结果（需鉴权）",
+        "tags": [
+          "grpc"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "机动车 motor，慢行 slow，公交 bus，工具 tool",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type2",
+            "in": "query",
+            "description": "network，traffic，change，review；工具四阶段 trip_model_all",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/grpc/stream": {
+      "get": {
+        "summary": "运行算法（SSE 流式）",
+        "deprecated": false,
+        "description": "Server-Sent Events 流式输出；Query 参数 token 与请求头 Authorization Bearer 均使用登录返回的 token。响应为 text/event-stream，非 JSON 单次响应。",
+        "tags": [
+          "grpc"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "description": "项目 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "description": "方案 ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "isbase",
+            "in": "query",
+            "description": "1 基础方案，0 普通方案",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "机动车 motor, 慢行 slow, 公交 bus",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type2",
+            "in": "query",
+            "description": "network / traffic / traffic_micro / change / review",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "与登录 data.token 相同，可与环境变量 {{token}} 绑定",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "description": "GIS 框选或单选 id，逗号分隔；评审 review 使用",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "json",
+            "in": "query",
+            "description": "路网现状分析 network 参数弹窗 JSON",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SSE 流（data: 行内 JSON）",
+            "headers": {},
+            "schema": {
+              "type": "string",
+              "description": "text/event-stream，事件体结构见线文档「SSE 管理」"
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "text/event-stream",
+          "application/json"
+        ]
+      }
+    },
+    "/api/grpc/aistream": {
+      "get": {
+        "summary": "普通方案建议（SSE 流式）",
+        "deprecated": false,
+        "description": "Server-Sent Events；需 prompt 查询参数。",
+        "tags": [
+          "grpc"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type2",
+            "in": "query",
+            "description": "way / mobile / network",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "prompt",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SSE 流",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "text/event-stream"
+        ]
+      }
+    },
+    "/api/grpc/aiprovider": {
+      "get": {
+        "summary": "获取可用 AI 模型列表",
+        "deprecated": false,
+        "description": "返回 data[]，每项含 id 与 label，供 /api/grpc/aiapi 的 llm_provider 参数使用",
+        "tags": [
+          "grpc"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/grpc/aiapi": {
+      "get": {
+        "summary": "AI 多级提示（同步 GET）",
+        "deprecated": false,
+        "description": "非 SSE；返回 JSON，展示正文取 data.content，详情链接取 data.download_url。Phase2：analysis_object=L1 Chip、engineer_notes=L2 Chip、business_goal=常见问题；已框选路段时传 ids（L1 含框选时仅 L1 为框选且已框选）。",
+        "tags": [
+          "grpc"
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "case_id",
+            "in": "query",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type2",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "prompt",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "analysis_object",
+            "in": "query",
+            "description": "分析对象（Phase2：L1 Chip 当前选中项）",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "engineer_notes",
+            "in": "query",
+            "description": "特殊问题类型（Phase2：L2 Chip 当前选中项）",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "business_goal",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "planning_targets",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "constraints",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "description": "框选的路段 id，如 1,2,3（Phase2：已框选时传入；L1 含框选时仅 L1 为框选且已框选）",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "llm_provider",
+            "in": "query",
+            "description": "AI 模型标识，如 deepseek",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "content": {
+                      "type": "string",
+                      "description": "对话展示正文"
+                    },
+                    "download_url": {
+                      "type": "string",
+                      "description": "查看详情下载链接"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "swagger": "2.0",
+  "definitions": {},
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "JWT Bearer。Apifox 导入后：优先选 Bearer Token，值为 {{token}}（自动加 Bearer 前缀）；若映射为 API Key（Header Authorization），值须填 Bearer {{token}}。token 由 POST /api/user/login 后置操作提取 $.data.token 写入环境变量。"
+    }
+  },
+  "x-apifox-token-binding": {
+    "loginPath": "/api/user/login",
+    "loginMethod": "post",
+    "tokenJsonPath": "$.data.token",
+    "environmentVariable": "token",
+    "authType": "BearerToken",
+    "tokenValueTemplate": "{{token}}",
+    "authorizationTemplate": "Bearer {{token}}",
+    "note": "Apifox：Bearer Token 类型填 {{token}}；API Key 类型 Header 值填 Bearer {{token}}。重新导入后须重新配置 login 后置操作与项目 Auth。"
+  },
+  "x-components": {}
+}

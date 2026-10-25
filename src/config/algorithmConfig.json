@@ -1,0 +1,232 @@
+[
+    {
+        "algorithmName": "trafficAllocationAlgorithm",
+        "displayName": "交通分配算法",
+        "type": "算法配置工具箱",
+        "dependentLib": ["无依赖"],
+        "inputData": [],
+        "parameters": [
+            {
+                "fieldName": "conv",
+                "dataType": "float",
+                "desc": "收敛准则",
+                "remarks": "1.00E-06",
+                "tranlateName": "收敛准则",
+                "default": 0.001
+            },
+            {
+                "fieldName": "max_iter",
+                "dataType": "Integer",
+                "desc": "最大迭代次数",
+                "remarks": "500",
+                "tranlateName": "最大迭代次数",
+                "default": 100
+            },
+            {
+                "fieldName": "lpf",
+                "dataType": "Enum",
+                "desc": "路段性能函数类型",
+                "remarks": "TNM_LINKTYPE: BPRLK（暂时可以不输入）",
+                "tranlateName": "路段性能函数类型",
+                "default": "TNM_LINKTYPE: BPRLK"
+            },
+            {
+                "fieldName": "cost_scalar",
+                "dataType": "float",
+                "desc": "成本缩放因子",
+                "remarks": "60",
+                "tranlateName": "成本缩放因子",
+                "default": 60
+            },
+            {
+                "fieldName": "cost_coef_time",
+                "dataType": "Integer",
+                "desc": "成本系数",
+                "remarks": "1",
+                "tranlateName": "成本系数",
+                "default": 1
+            }
+        ],
+        "outputData": []
+    },
+	{
+        "algorithmName": "trafficAllocationAlgorithm2",
+        "displayName": "交通分配算法",
+        "type": "算法配置工具箱",
+        "dependentLib": ["无依赖"],
+        "inputData": [],
+        "parameters": [
+            {
+				"fieldName": "regular_bike_independent_capacity",
+				"dataType": "Integer",
+				"desc": "独立慢行容量",
+				"remarks": "1200～2400",
+				"tranlateName": "独立慢行容量",
+				"default": 1600
+			},
+			{
+				"fieldName": "regular_bike_physical_capacity",
+				"dataType": "Integer",
+				"desc": "物理隔离容量",
+				"remarks": "1200～2400",
+				"tranlateName": "物理隔离容量",
+				"default": 1600
+			},
+			{
+				"fieldName": "regular_bike_weak_capacity",
+				"dataType": "Integer",
+				"desc": "弱隔离容量",
+				"remarks": "800～2000",
+				"tranlateName": "弱隔离容量",
+				"default": 1400
+			},
+			{
+				"fieldName": "intersection_bike_independent_capacity",
+				"dataType": "Integer",
+				"desc": "交叉口独立容量",
+				"remarks": "600～1600",
+				"tranlateName": "交叉口独立容量",
+				"default": 1000
+			},
+			{
+				"fieldName": "intersection_bike_physical_capacity",
+				"dataType": "Integer",
+				"desc": "交叉口物理隔离容量",
+				"remarks": "600～1600",
+				"tranlateName": "交叉口物理隔离容量",
+				"default": 1000
+			},
+			{
+				"fieldName": "intersection_bike_weak_capacity",
+				"dataType": "Integer",
+				"desc": "交叉口弱隔离容量",
+				"remarks": "400～1400",
+				"tranlateName": "交叉口弱隔离容量",
+				"default": 800
+			},
+			{
+				"fieldName": "signal_approach_capacity",
+				"dataType": "Integer",
+				"desc": "信号进口段容量",
+				"remarks": "400～1400",
+				"tranlateName": "信号进口段容量",
+				"default": 800
+			},
+			{
+				"fieldName": "fallback_bike_lane_num",
+				"dataType": "Integer",
+				"desc": "默认慢行车道数",
+				"remarks": "1～3",
+				"tranlateName": "默认慢行车道数",
+				"default": 1
+			},
+			{
+				"fieldName": "weak_separated_spill_ratio",
+				"dataType": "float",
+				"desc": "弱隔离影响系数",
+				"remarks": "0～1",
+				"tranlateName": "弱隔离影响系数",
+				"default": 1.0
+			},
+			{
+				"fieldName": "bicycle_pce",
+				"dataType": "float",
+				"desc": "非机动车折算当量",
+				"remarks": "0.10～0.40",
+				"tranlateName": "非机动车折算当量",
+				"default": 0.24
+			}
+        ],
+        "outputData": []
+    },
+    {
+        "algorithmName": "odEstimateAlgorithm",
+        "displayName": "OD反推算法",
+        "type": "高阶数据处理工具箱",
+        "dependentLib": ["交通分配"],
+        "inputData": [],
+        "parameters": [
+            {
+                "fieldName": "gamma1",
+                "dataType": "double",
+                "desc": "上层目标函数OD的权重",
+                "remarks": "默认为0.2",
+                "tranlateName": "上层目标函数OD权重",
+                "default": 0.2
+            },
+            {
+                "fieldName": "gamma2",
+                "dataType": "double",
+                "desc": "上层目标函数观测流量的权重",
+                "remarks": "默认为0.8",
+                "tranlateName": "上层目标函数观测流量的权重",
+                "default": 0.8
+            },
+            {
+                "fieldName": "oblink_ratio",
+                "dataType": "double",
+                "desc": "观测路段流量比例",
+                "remarks": "默认为0.3",
+                "tranlateName": "观测路段流量比例",
+                "default": 0.3
+            },
+            {
+                "fieldName": "mainloop_maxiter",
+                "dataType": "Integer",
+                "desc": "主循环最大迭代次数",
+                "remarks": "默认为100",
+                "tranlateName": "主循环最大迭代次数",
+                "default": 100
+            },
+            {
+                "fieldName": "mainloop_conv",
+                "dataType": "double",
+                "desc": "主循环收敛容差",
+                "remarks": "默认为1.00E-04",
+                "tranlateName": "主循环收敛容差",
+                "default": 0.01
+            },
+            {
+                "fieldName": "armijo_maxiter",
+                "dataType": "Integer",
+                "desc": "Armijo线搜索最大迭代次数",
+                "remarks": "默认为5",
+                "tranlateName": "Armijo方法最大迭代次数",
+                "default": 5
+            },
+            {
+                "fieldName": "armijo_stopcriterion",
+                "dataType": "double",
+                "desc": "Armijo终止准则",
+                "remarks": "默认为100",
+                "tranlateName": "Armijo终止准则",
+                "default": 100
+            },
+            {
+                "fieldName": "armijo_coefficient",
+                "dataType": "double",
+                "desc": "Armijo步长缩减系数",
+                "remarks": "默认为10",
+                "tranlateName": "Armijo步长缩减系数",
+                "default": 10
+            },
+            {
+                "fieldName": "armijo_alphamax",
+                "dataType": "double",
+                "desc": "Armijo初始最大步长",
+                "remarks": "默认为1000",
+                "tranlateName": "Armijo初始最大步长",
+                "default": 1000
+            },
+            {
+                "fieldName": "observed_flow_scale",
+                "dataType": "double",
+                "desc": "观测流放大倍数，≤0 自动回退为 1.0",
+                "remarks": "默认为1.0",
+                "tranlateName": "观测流放大倍数",
+                "default": 1.0
+            }
+        ],
+        "outputData": []
+    }
+]

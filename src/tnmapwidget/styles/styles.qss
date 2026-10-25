@@ -1,0 +1,68 @@
+/* 主窗口样式 */
+QMainWindow {
+    background: #f0f0f0;
+}
+
+/* 按钮样式 */
+QPushButton {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                stop:0 #f6f7fa, stop:1 #dadbde);
+    border: 1px solid #8f8f91;
+    border-radius: 3px;
+    padding: 5px;
+    min-width: 80px;
+}
+
+QPushButton:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                stop:0 #ffffff, stop:1 #e0e0e0);
+}
+
+QPushButton:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                stop:0 #dadbde, stop:1 #f6f7fa);
+}
+
+/* 工具栏样式 */
+QToolBar {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                stop:0 #f6f7fa, stop:1 #dadbde);
+    border-bottom: 1px solid #c0c0c0;
+    spacing: 3px;
+}
+
+QToolButton {
+    padding: 3px;
+}
+
+/* 属性表样式 */
+QTableView {
+    alternate-background-color: #f0f0f0;
+    selection-background-color: #3daee9;
+    selection-color: white;
+    gridline-color: #d0d0d0;
+}
+
+QHeaderView::section {
+    background-color: #e0e0e0;
+    padding: 5px;
+    border: 1px solid #c0c0c0;
+}
+
+/* 对话框样式 */
+QDialog {
+    background: #f0f0f0;
+}
+
+QGroupBox {
+    border: 1px solid #c0c0c0;
+    border-radius: 3px;
+    margin-top: 1ex;
+    padding-top: 10px;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 10px;
+    padding: 0 3px;
+}

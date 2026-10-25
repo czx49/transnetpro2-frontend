@@ -1,0 +1,5 @@
+Flask>=2.0
+flask-restx>=1.0.0
+# Werkzeug and Jinja2 are installed as Flask dependencies.
+# Optional: a production WSGI server if you want to run the server outside the dev server
+# gunicorn>=20.0.4

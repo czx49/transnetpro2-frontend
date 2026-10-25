@@ -1,0 +1,123 @@
+# This file is used to ignore files which are generated
+# ----------------------------------------------------------------------------
+
+*~
+*.autosave
+*.a
+*.core
+*.moc
+*.o
+*.obj
+*.orig
+*.rej
+*.so
+*.so.*
+*_pch.h.cpp
+*_resource.rc
+*.qm
+.#*
+*.*#
+core
+!core/
+tags
+.DS_Store
+.directory
+*.debug
+Makefile*
+*.prl
+*.app
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+Thumbs.db
+*.res
+/.qmake.cache
+/.qmake.stash
+
+# qtcreator generated files
+*.pro.user*
+*.qbs.user*
+CMakeLists.txt.user*
+
+# xemacs temporary files
+*.flc
+
+# Vim temporary files
+.*.swp
+
+# Visual Studio generated files
+*.ib_pdb_index
+*.idb
+*.ilk
+*.pdb
+*.sln
+*.suo
+*.vcproj
+*vcproj.*.*.user
+*.ncb
+*.sdf
+*.opensdf
+*.vcxproj
+*vcxproj.*
+
+# MinGW generated files
+*.Debug
+*.Release
+
+# Python byte code
+*.pyc
+
+# Binaries
+# --------
+*.dll
+*.exe
+
+# Directories with generated files
+.moc/
+.obj/
+.pch/
+.rcc/
+.uic/
+/build*/
+
+.vs/
+out/
+build/
+
+.claude/
+.worktrees/
+docs/superpowers/plans/
+
+# Local Mockplus session cache. Contains login credentials/cookies.
+docs/mockplus_cookies.json
+docs/mockplus_storage_state.json
+docs/mockplus_after_login.png
+docs/mockplus_design_page.png
+docs/mockplus_persistent_login_debug.png
+docs/mockplus_browser_profile/
+
+# Other file
+docs/prototype_uidesign_mapping.md
+resources/prototype_uidesign_extract.md
+
+# Local offline credentials, databases, binaries and verification output
+/offline/config/*.json
+/offline/config/schema.sql
+/offline/bin/
+/offline/data/
+/offline/logs/
+/_audit/
+
+# Local credentials and generated runtime files
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+*.p12
+*.pfx
+*.log
+__pycache__/
+/ai_client.ini
+/src/ai_client.ini

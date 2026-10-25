@@ -1,0 +1,38 @@
+#include <windows.h>
+
+#pragma code_page(65001)
+
+IDI_ICON1       ICON      "../icon.ico"
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     1,0,0,0
+PRODUCTVERSION  1,0,0,0
+FILEFLAGSMASK   0x3fL
+#ifdef _DEBUG
+FILEFLAGS       0x1L
+#else
+FILEFLAGS       0x0L
+#endif
+FILEOS          0x40004L
+FILETYPE        0x1L
+FILESUBTYPE     0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404b0"
+        BEGIN
+            VALUE "CompanyName",      "中国市政工程西南设计研究总院有限公司"
+            VALUE "FileDescription",  "城市道路交通网络预测与分析平台 (Launcher)"
+            VALUE "FileVersion",      "1.0.0.0"
+            VALUE "InternalName",     "tnp2_launcher.exe"
+            VALUE "LegalCopyright",   "Copyright (C) 2026"
+            VALUE "OriginalFilename", "tnp2_launcher.exe"
+            VALUE "ProductName",      "城市道路交通网络预测与分析平台"
+            VALUE "ProductVersion",   "1.0.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END
